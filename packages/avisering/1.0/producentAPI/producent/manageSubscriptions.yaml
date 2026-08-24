@@ -1,0 +1,210 @@
+openapi: 3.0.3
+info:
+  title: Producentens API för avisering
+  description: En beskrivning av API:et som en producent behöver sätta upp för att erbjud aviseringsfunktionalitet i samarbete med Min ärendens vidareförmedlingstjänst
+  version: 1.0
+paths:
+  /kundhandelser-prenumerationer/upplagg:
+    post:
+      summary: Lägg upp prenumeration
+      description: Anropas från vidareförmedlingstjänsten när en konsument vill lägga upp en prenumeration på kundhändelser
+      parameters:
+        - $ref: '#/components/parameters/requestId'
+        - $ref: '#/components/parameters/correlationId
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/upplaggRequestSchema"
+      responses:
+        "200":
+          description: Prenumerationen upplagd. Detta svar skickas om användaren/konsumenten var auktoriserad på minst en kundhändelsetype. Om den inte var auktoriserad på någon kundhändelsetyp skall 403 skickas istället
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/upplaggResponseSchema"
+        "403":
+          description: Användaren/konsumenten var inte auktoriserad på någon begärd kundhändelsetyp. Ingen prenumeration är upplagd
+        "501":
+          description:
+            Producenten stödjer inte efterfrågad funktionalitet.
+            Det kan t ex röra sig om anrop med taggar, juridiskt läsombud eller att identifera kund med ärende
+components:
+  schemas:
+    upplaggRequestSchema:
+      type: object
+      properties:
+        part:
+          type: object
+          description:
+            Platshållare för vem eller vad kundhändelserna som man prenumererar på skall gälla för.
+          properties:
+            kund:
+              type: object
+              description:
+                Vem frågan gäller.
+                Mina ärendens stanard stödjer inte att hämta kundhändelser för en mindre organisation/kund än vad som går att identifiera med en identifierare (t ex ett delkontor i ett större företag)
+                Om parametern kund utelämnas ur frågan ska parametern arende anges istället. Det går att ange båda. Då identifierar man båda kriterierna för kund och ärende.
+              properties:
+                identifierare:
+                  type: string
+                  description:
+                    Ett värde som unikt identifierar vilken kunden. Vilken yp av identifierare det är bestäms av parametern kund.typ
+                    Om identifieraren är ett personnummer skall det skrivs med 12 siffror enligt formatet ÅÅÅÅMMDDXXXN (alltså fyrsiffrigt år och utan bindestreck)
+                    Om identifieraren är ett organisationsnummer ska det skrivas med 12 siffror. Enskilda firmor får sekelsiffror enligt årtalet personen är född. Övriga får sekelsiffror 16
+                tillagg:
+                  type: string
+                  description:
+                    I vissa fall räcker inte kund.identifierare för att unikt identifiera en specifik kund. Då används även detta attribut. Attributet är valfritt så om det inte behövs ska det inte vara med.
+                    Ett exempel på när det behövs är för att unikt identifiera en enskild firma hos Bolagsverket. Om en person har flera registrerade enskilda firmor (flera företagsnamn) så differentieras dessa med ett löpnummer. Om konsumenten är ute efter kundhändelser för bara en av dessa enskilda firmor kan konsumenten skriva in löpnumret i detta attribut. Om attributet utelämnas returneras kundhändelser för alla enskilda firmor för aktuellt personnummer.
+                    Exakt funktionalitet för detta attribut behöver i förekommande fall specificeras av producenten.
+                typ:
+                  type: string
+                  description:
+                    Vilken typ av värde identifieraren är. Möjliga värden är
+                    Personnummer
+                    Organisations-nummer
+                    Samordningsnummer
+                    Det är inte säkert att alla producenter stödjer alla typer av identifierare om det inte är relevant att göra så i deras verksamhet.
+                  enum: [Personnummer, Organisationsnummer, Samordningsnummer]
+              required:
+                - identifierare
+                - typ
+            arende:
+              type: object
+              description:
+                I vissa fall vill konsumenter istället för att fråga på en viss person fråga på ett visst ärende (producentärende eller kundärende). Detta kan till exempel användas för att smalna av frågan till ett specifikt ärende, men kan också användas i vissa fall där det kanske inte ännu finns någon lämplig identifierare på kunden. Till exempel har Bolagsverket ärenden om företag som ännu inte fått något organisationsnummer och därför kan de inte identifieras med hjälp av organisationsnummer.
+                Om parameter arende utelämnas ur frågan ska parametern kund anges istället. Det går också att ange båda. Svaret kommer då att uppfylla båda kriterierna för kund och ärende.
+                Det är inte säkert att alla producenter stödjer att kunna ta emot frågor som identifieras med kund.  I förekommande fall kommer de att svara med ett felsvar (501)
+              properties:
+                identifierare:
+                  type: string
+                  description: Ett värde som unikt identifierar ärendet. Vilken typ av identifierare det är bestäms av parametern arende.typ
+                typ:
+                  type: string
+                  description:
+                    Vilken typ av värde identifieraren är. Möjliga värden är
+                    Konsumentreferens
+                    Producentärendereferens
+                    Diarienummer
+                    Kvittensnummer
+                  enum: [Konsumentreferens, Producentärendereferens, Diarienummer, Kvittensnummer]
+              required:
+                - identifierare
+                - typ
+          anyOf:
+            - required: [kund]
+            - required: [arende]
+        kundhandelseTyper:
+          type: array
+          description: Array av kundhändelsetyper som efterfrågas. Varje typ specificeras som en standardiserad sträng enligt det namnsättningsformat som gäller för kundhändelsetyper.
+          items:
+            type: string
+        taggar:
+          type: array
+          description:
+            Producenten kan definiera taggar (textsträngar) som pekar ut specifika kundhändelsetyper. T.ex. kan man tänka sig att Skatteverket definierar en tagg som pekar ut alla kundhändelsetyper som har med företagande att göra, eller med beskattningsverksamheten.
+            Varje tagg pekar ut specifika producentärendetyper och/eller specifika kundhändelsetyper.
+            Det är inte säkert att alla producenter stödjer taggar. Om det inte stöds får de svara med ett felsvar (501)
+          items:
+            type: string
+        anvandare:
+          type: string
+          description:
+            Personnummer för den användare som aviseringarna skall gälla för.
+            Format med 12 siffror ÅÅÅÅMMDDXXXN
+        konsument:
+          type: string
+          description: Namn på konsumenten
+        konsumentOrganisationsnummer:
+          type: string
+          description: Konsumentens organisationsnummer
+        konsumenttjanst:
+          type: string
+          description: Namnet på konsumenttjänsten
+        slutdatum:
+          type: string
+          format: date
+        onskadAviseringstyp:
+          type: string
+          description:
+            Visar om konsumenten önskar få notifieringarna som kundhändelser eller notiser. Om konsumenten önskar kundhändelser OCH producenten också vill skicka som kundhändelser kommer de som kundhändelser, annars skickas notiser
+            Ett av dessa värden
+            KUNDHÄNDELSE
+            NOTIS
+          enum:
+            - KUNDHÄNDELSE
+            - NOTIS
+        auktoristionsMetod:
+          type: string
+          description:
+            Visar om konsumenten agerar juridiskt läsombud, eller om prenumerationen istället gäller för användaren. Påverkar vilket värde producentenen skall använda att auktorisera mot.
+            Ett av dessa värden
+            NORMAL
+            JURIDISKT_LÄSOMBUD
+            Om parametern utelämnas antas NORMAL
+            Det är inte säkert att alla producenter stödjer hämtning som juridiskt läsombud. Om man försöker hämta som juridskt läsombud mot en producent som inte stöjer det skall producenten skicka ett felsvar (501)
+          enum:
+            - NORMAL
+            - JURIDISKT_LÄSOMBUD
+      required:
+        - part
+        - konsumenttjanst
+        - slutdatum
+        - onskadAviseringstyp
+    upplaggResponseSchema:
+      type: object
+      properties:
+        producentPrenumerationsID:
+          type: string
+          description:
+            Ett unikt id som sätts av producenten för att representera den här prenumerationen hos dem.
+            UUID i 8-4-4-4-12 format
+          format: uuid
+        kundhandelseTypsInformation:
+          type: array
+          description:
+            En lista med information om hur det gick med efterfrågade kundhändelsetyper. 
+            Svaret innehåller information om vilka kundhändelsetyper på lövnivå man har fått prenumeration på samt hur många kundhändelsetyper på lövnivå som man inte är auktoriserad för.
+          items:
+            type: object
+            description:
+              Visar vad som hände med en begärd uppsättning kundhändelsetyper, dvs en sträng i fältet kundhändelseTyper eller en sträng i fältet taggar i frågan
+            properties:
+              begardKundhandelseTyp:
+                type: string
+                description: Vad begärdes (med eventuell wildcard)
+              kundhandelseTyper:
+                type: array
+                description: Auktoriserade kundhändelsetypers (på lövnivå) identifierare. Om användaren inte var auktoriserad på någon av de begärda kundhändelsetyperna blir listan tom
+                items:
+                  type: string
+              antalIckeAuktoriserade:
+                type: number
+                description: Hur många kundhändelsetyper för denna begärda kundhändelsetyp var användaren/konsumenttjänsten inte auktoriserad på.
+            required:
+              - begardKundhandelseTyp
+              - antalIckeAuktoriserade
+      required:
+        - producentPrenumerationsID
+        - kundhandelseTypsInformation
+  parameters:
+    requestId:
+      name: x-request-id
+      description:
+        UUID som identifierar det specifika anropet.  Bör loggas av både vidareförmedlingstjänst och producent så att man senare kan använda det i felsökningssyfte.  Värdet skapas av vidareförmedlingstjänsten.
+      in: header
+      required: true
+      format: uuid
+      schema:
+        type: string
+    correlationId:
+      name: x-correlation-id
+      description:
+        Ett anrop på den här endpointen är ett resultat av att en konsumenttjänst anropat någon av endpoints för prenumerationshantering hos VFT. För att knyta ihop hela interaktionen behöver vi ett correlations-id. Alla anrop som är resultat av samma anrop från konsumenttjänsten kommer att ha samma värde på correlations-id
+      in: header
+      required: true
+      format: uuid
+      schema: string
+
+  
