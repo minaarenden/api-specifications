@@ -1,0 +1,9 @@
+openapi: 3.0.3
+info:
+  title: Vidareförmedlingstjänstens API för att ta emot aviseringar
+  description: Beskriver API:et som vidareförmedlingstjänsten erbjuder för att ta emot aviseringar från producenter
+  version: 1.0.0
+paths:
+  /kundhandelser/aviseringar:
+    # TODO
+  

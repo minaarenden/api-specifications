@@ -1,0 +1,12 @@
+openapi: 3.0.3
+info:
+  title: Producentens API för avisering - Hämtning av prenumerationsinformation
+  description:
+    En beskrivning av API:et som en producent behöver sätta upp för att erbjuda aviseringsfunktionalitet i samarbete med Min ärendens vidareförmedlingstjänst
+    Denna fil innehåller beskrivningar av endpoints för hämtning av prenumerationsinformation
+  version: 1.0
+paths:
+  /kundhandelser-prenumerationer/detaljer:
+    #TODO
+
+  

@@ -1,7 +1,9 @@
 openapi: 3.0.3
 info:
-  title: Producentens API för avisering
-  description: En beskrivning av API:et som en producent behöver sätta upp för att erbjud aviseringsfunktionalitet i samarbete med Min ärendens vidareförmedlingstjänst
+  title: Producentens API för avisering - Hantering av prenumerationer
+  description:
+    En beskrivning av API:et som en producent behöver sätta upp för att erbjuda aviseringsfunktionalitet i samarbete med Min ärendens vidareförmedlingstjänst
+    Denna fil innehåller beskrivningar av endpoints för hantering av prenumerationer
   version: 1.0
 paths:
   /kundhandelser-prenumerationer/upplagg:
@@ -29,6 +31,10 @@ paths:
           description:
             Producenten stödjer inte efterfrågad funktionalitet.
             Det kan t ex röra sig om anrop med taggar, juridiskt läsombud eller att identifera kund med ärende
+  /kundhandelser-prenumerationer/borttag:
+#TODO
+  /kundhandelser-prenumerationer/andra:
+#TODO
 components:
   schemas:
     upplaggRequestSchema:
