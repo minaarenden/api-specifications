@@ -51,7 +51,31 @@ paths:
         "403":
           description: Skickas när prenumerationen tillhör en annan användare eller konsumenttjänst
   /kundhandelser-prenumerationer/andra:
-  #TODO
+    post:
+      summary: Ändra en prenumerations
+      description: Anropas från vidareförmedlingtjänsten när en konsument vill ändra en prenumeration
+      parameters:
+        - $ref: '#/components/parameters/requestId'
+        - $ref: '#/components/parameters/correlationId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/andraRequestSchema'
+      responses:
+        "200":
+          description: Ändringen genomförd
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/andraResponseSchema'
+        "404":
+          description: Skickas till exempel när producentPrenumerationsID inte finns
+        "403":
+          description: Skickas när prenumerationen tillhör en annan användare eller konsumenttjänst
+        "501":
+          description:
+            Producenten stödjer inte efterfrågad funktionalitet. (ändring av taggar)
 components:
   schemas:
     upplaggRequestSchema:
@@ -131,6 +155,9 @@ components:
         konsumenttjanst:
           $ref: '#/components/schemas/konsumenttjanst'
         slutdatum:
+          description:
+            Önskat slutdatum.
+            Vidareförmedlingstjäntsen har satt slutdatum så att det är max ett år framåt i tiden.
           type: string
           format: date
         onskadAviseringstyp:
@@ -195,6 +222,101 @@ components:
       required:
         - producentPrenumerationsID
         - konsumenttjanst
+    andraRequestSchema:
+      type: object
+      properties:
+        producentPrenumerationsID:
+          $ref: '#/components/schemas/producentPrenumerationsID'
+        anvandare:
+          $ref: '#/components/schemas/anvandare'
+        konsument:
+          $ref: '#/components/schemas/konsument'
+        konsumenttjanst:
+          $ref: '#/components/schemas/konsumenttjanst'
+        auktorisationsMetod:
+          $ref: '#/components/schemas/auktoristionsMetod'
+        slutdatum:
+          description:
+            Nytt önskat slutdatum
+            Om detta slutdatum är före existerande slutdatum sätts detta datum som nytt slutdatum (resultatet blir alltså en förkortning)
+            Om parametern utelämnas ändras inte slutdatumet
+          type: string
+          format: date
+        kundhandelseTypAndrngar:
+          description:
+            Varje tillägg eller borttag av kundhändelsetyp skall ha ett objekt i den här listan
+          type: array
+          items:
+            type: object
+            properties:
+              kundhandelseTyp:
+                description:
+                  kundhandelseTyp	Vilken kundhändelsetyp som skall läggas till eller tas bort
+                  Kan vara wildcards
+                type: string
+              andringsTyp:
+                $ref: '#/components/schemas/andringsTyp'
+            required:
+              - kundhandelseTyp
+              - andringsTyp
+        tagAndringar:
+          description:
+            Varje tillägg eller borttag av tag skall ha ett eget objekt i den här listan
+            Om producenten inte stödjer hanteirng av taggar skall man svara med felfall 501 om det finns objekt i den här listan
+          type: array
+          items:
+            type: object
+            properties:
+              tag:
+                description:
+                  Vilken tag skall läggas till eller tas bort
+                type: string
+              andringsTyp:
+                $ref: '#/components/schemas/andringsTyp'
+            required:
+              - tag
+              - andringsTyp
+      required:
+        - producentPrenumerationsID
+        - konsumenttjanst
+    andraResponseSchema:
+      type: object
+      properties:
+        slutdatum:
+          type: string
+          description:
+            Slutdatum som det faktiskt blev i och med förlängningen prenumerationen (inklusive)
+            Attributet saknas om ingen ändring gjorts
+          format: date
+        kundhandelseTypAndringar:
+          type: array
+          description: En lista med ändringar på kundhändelsetyper som faktiskt skett. Om inga ändringar skett är listan tom
+          items:
+            type: object
+            properties:
+              kundhandelseTyp:
+                type: string
+                description: Vilken kundhändelsetyp som ändrades
+              andringsTyp:
+                $ref: '#/components/schemas/andringsTyp'
+            required:
+              - kundhandelseTyp
+              - andringsTyp
+        tagAndringar:
+          type: array
+          description: En lista med ändringar på kundhändelsetyper som faktiskt skett. Om inga ändringar skett är listan tom
+          items:
+            type: object
+            properties:
+              tag:
+                description:
+                  Vilken tag som ändrades
+                type: string
+              andringsTyp:
+                $ref: '#/components/schemas/andringsTyp'
+            required:
+              - tag
+              - andringsTyp
     producentPrenumerationsID:
       type: string
       description:
@@ -233,6 +355,13 @@ components:
       enum:
         - NORMAL
         - JURIDISKT_LÄSOMBUD
+    andringsTyp:
+      description:
+        Vilken sorts ändring vill man göra
+      type: string
+      enum:
+        - TILLÄGG
+        - BORTTAG
   parameters:
     requestId:
       name: x-request-id
