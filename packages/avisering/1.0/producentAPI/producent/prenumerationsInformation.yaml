@@ -7,6 +7,16 @@ info:
   version: 1.0
 paths:
   /kundhandelser-prenumerationer/detaljer:
-    #TODO
+    post:
+      summary: Hämta detaljer för en prenumeration
+      description: Anropas från vidareförmedlingstjänsten när den eller en konsument vill hämta detaljer för en prenumeration
+      parameters:
+        - $ref: '../common/parameters.yaml#/components/parameters/requestId'
+        - $ref: '../common/parameters.yaml#/components/parameters/correlationId'
+      requestBody:
+      responses:
+        "200":
+        "404":
+        "403":
 
   

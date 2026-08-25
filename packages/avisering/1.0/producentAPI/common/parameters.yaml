@@ -1,0 +1,23 @@
+components:
+  parameters:
+    requestId:
+      name: x-request-id
+      description:
+        UUID som identifierar det specifika anropet.  Bör loggas av både vidareförmedlingstjänst och producent så att man senare kan använda det i felsökningssyfte.  Värdet skapas av vidareförmedlingstjänsten.
+      in: header
+      required: true
+      schema:
+        type: string
+        format: uuid
+    correlationId:
+      name: x-correlation-id
+      description:
+        Ett anrop på den här endpointen är ett resultat av att en konsumenttjänst anropat någon av endpoints för prenumerationshantering hos VFT. För att knyta ihop hela interaktionen behöver vi ett correlations-id. Alla anrop som är resultat av samma anrop från konsumenttjänsten kommer att ha samma värde på correlations-id
+        Värdet är en UUID
+      in: header
+      required: true
+      schema:
+        type: string
+        format: uuid
+
+
