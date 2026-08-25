@@ -32,9 +32,26 @@ paths:
             Producenten stödjer inte efterfrågad funktionalitet.
             Det kan t ex röra sig om anrop med taggar, juridiskt läsombud eller att identifera kund med ärende
   /kundhandelser-prenumerationer/borttag:
-#TODO
+    post:
+      summary: Ta bort en prenumeration
+      description: Anropas från vidareförmedlingstjänsten när en konsument vill ta bort en prenumeration på kundhändelser
+      parameters:
+        - $ref: '#/components/parameters/requestId'
+        - $ref: '#/components/parameters/correlationId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/borttagRequestSchema'
+      responses:
+        "200":
+          description: Prenumerationen borttagen
+        "404":
+          description: Skickas till exempel när producentPrenumerationsID inte finns
+        "403":
+          description: Skickas när prenumerationen tillhör en annan användare eller konsumenttjänst
   /kundhandelser-prenumerationer/andra:
-#TODO
+  #TODO
 components:
   schemas:
     upplaggRequestSchema:
@@ -108,19 +125,11 @@ components:
           items:
             type: string
         anvandare:
-          type: string
-          description:
-            Personnummer för den användare som aviseringarna skall gälla för.
-            Format med 12 siffror ÅÅÅÅMMDDXXXN
+          $ref: '#/components/schemas/anvandare'
         konsument:
-          type: string
-          description: Namn på konsumenten
-        konsumentOrganisationsnummer:
-          type: string
-          description: Konsumentens organisationsnummer
+          $ref: '#/components/schemas/konsument'
         konsumenttjanst:
-          type: string
-          description: Namnet på konsumenttjänsten
+          $ref: '#/components/schemas/konsumenttjanst'
         slutdatum:
           type: string
           format: date
@@ -132,14 +141,7 @@ components:
             - KUNDHÄNDELSE
             - NOTIS
         auktoristionsMetod:
-          type: string
-          description:
-            Visar om konsumenten agerar juridiskt läsombud, eller om prenumerationen istället gäller för användaren. Påverkar vilket värde producentenen skall använda att auktorisera mot.
-            Om parametern utelämnas antas NORMAL
-            Det är inte säkert att alla producenter stödjer hämtning som juridiskt läsombud. Om man försöker hämta som juridskt läsombud mot en producent som inte stöjer det skall producenten skicka ett felsvar (501)
-          enum:
-            - NORMAL
-            - JURIDISKT_LÄSOMBUD
+          $ref: '#/components/schemas/auktoristionsMetod'
       required:
         - part
         - konsumenttjanst
@@ -149,11 +151,7 @@ components:
       type: object
       properties:
         producentPrenumerationsID:
-          type: string
-          description:
-            Ett unikt id som sätts av producenten för att representera den här prenumerationen hos dem.
-            UUID i 8-4-4-4-12 format
-          format: uuid
+          $ref: '#/components/schemas/producentPrenumerationsID'
         kundhandelseTypsInformation:
           type: array
           description:
@@ -181,6 +179,60 @@ components:
       required:
         - producentPrenumerationsID
         - kundhandelseTypsInformation
+    borttagRequestSchema:
+      type: object
+      properties:
+        producentPrenumerationsID:
+          $ref: '#/components/schemas/producentPrenumerationsID'
+        anvandare:
+          $ref: '#/components/schemas/anvandare'
+        konsument:
+          $ref: '#/components/schemas/konsument'
+        konsumenttjanst:
+          $ref: '#/components/schemas/konsumenttjanst'
+        auktoristionsMetod:
+          $ref: '#/components/schemas/auktoristionsMetod'
+      required:
+        - producentPrenumerationsID
+        - konsumenttjanst
+    producentPrenumerationsID:
+      type: string
+      description:
+        Ett unikt id som sätts av producenten för att representera den här prenumerationen hos dem.
+        UUID i 8-4-4-4-12 format
+      format: uuid
+    anvandare:
+      type: string
+      description:
+        Personnummer för den användare som aviseringarna skall gälla för.
+        Format med 12 siffror ÅÅÅÅMMDDXXXN
+    konsument:
+      type: object
+      description:
+        Konsumenten är organisationen som har utvecklat konsumenttjänsten.
+        I vissa fall kan inte vidareförmedlingstjänsten ta reda på vem konsumenten är. Då kommer detta fält vara tomt. Det kommer dock alltid att vara ifyllt i de lägen som det behöver användas för auktorisation.
+      properties:
+        namn:
+          type: string
+        organisationsnummer:
+          type: string
+          description:
+            Konsumentens organisationsnummer. Format 12 siffror utan bindestreck, alltså 16XXXXXXXXXX för juridiska personer och 19/20XXXXXXXXXX för fysiska
+      required:
+        - namn
+        - organisationsnummer
+    konsumenttjanst:
+      type: string
+      description: Namnet på konsumenttjänsten
+    auktoristionsMetod:
+      type: string
+      description:
+        Visar om konsumenten agerar juridiskt läsombud, eller om prenumerationen istället gäller för användaren. Påverkar vilket värde producentenen skall använda att auktorisera mot.
+        Om parametern utelämnas antas NORMAL
+        Det är inte säkert att alla producenter stödjer hämtning som juridiskt läsombud. Om man försöker hämta som juridskt läsombud mot en producent som inte stöjer det skall producenten skicka ett felsvar (501)
+      enum:
+        - NORMAL
+        - JURIDISKT_LÄSOMBUD
   parameters:
     requestId:
       name: x-request-id
@@ -188,16 +240,18 @@ components:
         UUID som identifierar det specifika anropet.  Bör loggas av både vidareförmedlingstjänst och producent så att man senare kan använda det i felsökningssyfte.  Värdet skapas av vidareförmedlingstjänsten.
       in: header
       required: true
-      format: uuid
       schema:
         type: string
+        format: uuid
     correlationId:
       name: x-correlation-id
       description:
         Ett anrop på den här endpointen är ett resultat av att en konsumenttjänst anropat någon av endpoints för prenumerationshantering hos VFT. För att knyta ihop hela interaktionen behöver vi ett correlations-id. Alla anrop som är resultat av samma anrop från konsumenttjänsten kommer att ha samma värde på correlations-id
+        Värdet är en UUID
       in: header
       required: true
-      format: uuid
-      schema: string
+      schema:
+        type: string
+        format: uuid
 
   
