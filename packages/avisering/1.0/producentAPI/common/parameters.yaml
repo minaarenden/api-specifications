@@ -3,7 +3,7 @@ components:
     requestId:
       name: x-request-id
       description:
-        UUID som identifierar det specifika anropet.  Bör loggas av både vidareförmedlingstjänst och producent så att man senare kan använda det i felsökningssyfte.  Värdet skapas av vidareförmedlingstjänsten.
+        UUID som identifierar det specifika anropet. Bör loggas av både vidareförmedlingstjänst och producent så att man senare kan använda det i felsökningssyfte.  Värdet skapas av vidareförmedlingstjänsten.
       in: header
       required: true
       schema:

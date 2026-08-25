@@ -82,64 +82,9 @@ components:
       type: object
       properties:
         part:
-          type: object
-          description:
-            Platshållare för vem eller vad kundhändelserna som man prenumererar på skall gälla för.
-          properties:
-            kund:
-              type: object
-              description:
-                Vem frågan gäller.
-                Mina ärendens stanard stödjer inte att hämta kundhändelser för en mindre organisation/kund än vad som går att identifiera med en identifierare (t ex ett delkontor i ett större företag)
-                Om parametern kund utelämnas ur frågan ska parametern arende anges istället. Det går att ange båda. Då identifierar man båda kriterierna för kund och ärende.
-              properties:
-                identifierare:
-                  type: string
-                  description:
-                    Ett värde som unikt identifierar vilken kunden. Vilken yp av identifierare det är bestäms av parametern kund.typ
-                    Om identifieraren är ett personnummer skall det skrivs med 12 siffror enligt formatet ÅÅÅÅMMDDXXXN (alltså fyrsiffrigt år och utan bindestreck)
-                    Om identifieraren är ett organisationsnummer ska det skrivas med 12 siffror. Enskilda firmor får sekelsiffror enligt årtalet personen är född. Övriga får sekelsiffror 16
-                tillagg:
-                  type: string
-                  description:
-                    I vissa fall räcker inte kund.identifierare för att unikt identifiera en specifik kund. Då används även detta attribut. Attributet är valfritt så om det inte behövs ska det inte vara med.
-                    Ett exempel på när det behövs är för att unikt identifiera en enskild firma hos Bolagsverket. Om en person har flera registrerade enskilda firmor (flera företagsnamn) så differentieras dessa med ett löpnummer. Om konsumenten är ute efter kundhändelser för bara en av dessa enskilda firmor kan konsumenten skriva in löpnumret i detta attribut. Om attributet utelämnas returneras kundhändelser för alla enskilda firmor för aktuellt personnummer.
-                    Exakt funktionalitet för detta attribut behöver i förekommande fall specificeras av producenten.
-                typ:
-                  type: string
-                  description:
-                    Vilken typ av värde identifieraren är.
-                    Det är inte säkert att alla producenter stödjer alla typer av identifierare om det inte är relevant att göra så i deras verksamhet.
-                  enum: [Personnummer, Organisationsnummer, Samordningsnummer]
-              required:
-                - identifierare
-                - typ
-            arende:
-              type: object
-              description:
-                I vissa fall vill konsumenter istället för att fråga på en viss person fråga på ett visst ärende (producentärende eller kundärende). Detta kan till exempel användas för att smalna av frågan till ett specifikt ärende, men kan också användas i vissa fall där det kanske inte ännu finns någon lämplig identifierare på kunden. Till exempel har Bolagsverket ärenden om företag som ännu inte fått något organisationsnummer och därför kan de inte identifieras med hjälp av organisationsnummer.
-                Om parameter arende utelämnas ur frågan ska parametern kund anges istället. Det går också att ange båda. Svaret kommer då att uppfylla båda kriterierna för kund och ärende.
-                Det är inte säkert att alla producenter stödjer att kunna ta emot frågor som identifieras med kund.  I förekommande fall kommer de att svara med ett felsvar (501)
-              properties:
-                identifierare:
-                  type: string
-                  description: Ett värde som unikt identifierar ärendet. Vilken typ av identifierare det är bestäms av parametern arende.typ
-                typ:
-                  type: string
-                  description:
-                    Vilken typ av värde identifieraren är.
-                  enum: [Konsumentreferens, Producentärendereferens, Diarienummer, Kvittensnummer]
-              required:
-                - identifierare
-                - typ
-          anyOf:
-            - required: [kund]
-            - required: [arende]
+          $ref: '../common/schemas.yaml#/components/schemas/part'
         kundhandelseTyper:
-          type: array
-          description: Array av kundhändelsetyper som efterfrågas. Varje typ specificeras som en standardiserad sträng enligt det namnsättningsformat som gäller för kundhändelsetyper.
-          items:
-            type: string
+          $ref: '../common/schemas.yaml#/components/schemas/kundhandelseTyper'
         taggar:
           type: array
           description:
@@ -149,11 +94,11 @@ components:
           items:
             type: string
         anvandare:
-          $ref: '#/components/schemas/anvandare'
+          $ref: '../common/schemas.yaml#/components/schemas/anvandare'
         konsument:
-          $ref: '#/components/schemas/konsument'
+          $ref: '../common/schemas.yaml#/components/schemas/konsument'
         konsumenttjanst:
-          $ref: '#/components/schemas/konsumenttjanst'
+          $ref: '../common/schemas.yaml#/components/schemas/konsumenttjanst'
         slutdatum:
           description:
             Önskat slutdatum.
@@ -161,14 +106,9 @@ components:
           type: string
           format: date
         onskadAviseringstyp:
-          type: string
-          description:
-            Visar om konsumenten önskar få notifieringarna som kundhändelser eller notiser. Om konsumenten önskar kundhändelser OCH producenten också vill skicka som kundhändelser kommer de som kundhändelser, annars skickas notiser
-          enum:
-            - KUNDHÄNDELSE
-            - NOTIS
+          $ref: '../common/schemas.yaml#/components/schemas/onskadAviseringsTyp'
         auktoristionsMetod:
-          $ref: '#/components/schemas/auktoristionsMetod'
+          $ref: '../common/schemas.yaml#/components/schemas/auktoristionsMetod'
       required:
         - part
         - konsumenttjanst
@@ -178,7 +118,7 @@ components:
       type: object
       properties:
         producentPrenumerationsID:
-          $ref: '#/components/schemas/producentPrenumerationsID'
+          $ref: '../common/schemas.yaml#/components/schemas/producentPrenumerationsID'
         kundhandelseTypsInformation:
           type: array
           description:
@@ -210,15 +150,15 @@ components:
       type: object
       properties:
         producentPrenumerationsID:
-          $ref: '#/components/schemas/producentPrenumerationsID'
+          $ref: '../common/schemas.yaml#/components/schemas/producentPrenumerationsID'
         anvandare:
-          $ref: '#/components/schemas/anvandare'
+          $ref: '../common/schemas.yaml#/components/schemas/anvandare'
         konsument:
-          $ref: '#/components/schemas/konsument'
+          $ref: '../common/schemas.yaml#/components/schemas/konsument'
         konsumenttjanst:
-          $ref: '#/components/schemas/konsumenttjanst'
+          $ref: '../common/schemas.yaml#/components/schemas/konsumenttjanst'
         auktoristionsMetod:
-          $ref: '#/components/schemas/auktoristionsMetod'
+          $ref: '../common/schemas.yaml#/components/schemas/auktoristionsMetod'
       required:
         - producentPrenumerationsID
         - konsumenttjanst
@@ -226,15 +166,15 @@ components:
       type: object
       properties:
         producentPrenumerationsID:
-          $ref: '#/components/schemas/producentPrenumerationsID'
+          $ref: '../common/schemas.yaml#/components/schemas/producentPrenumerationsID'
         anvandare:
-          $ref: '#/components/schemas/anvandare'
+          $ref: '../common/schemas.yaml#/components/schemas/anvandare'
         konsument:
-          $ref: '#/components/schemas/konsument'
+          $ref: '../common/schemas.yaml#/components/schemas/konsument'
         konsumenttjanst:
-          $ref: '#/components/schemas/konsumenttjanst'
+          $ref: '../common/schemas.yaml#/components/schemas/konsumenttjanst'
         auktorisationsMetod:
-          $ref: '#/components/schemas/auktoristionsMetod'
+          $ref: '../common/schemas.yaml#/components/schemas/auktoristionsMetod'
         slutdatum:
           description:
             Nytt önskat slutdatum
@@ -317,44 +257,6 @@ components:
             required:
               - tag
               - andringsTyp
-    producentPrenumerationsID:
-      type: string
-      description:
-        Ett unikt id som sätts av producenten för att representera den här prenumerationen hos dem.
-        UUID i 8-4-4-4-12 format
-      format: uuid
-    anvandare:
-      type: string
-      description:
-        Personnummer för den användare som aviseringarna skall gälla för.
-        Format med 12 siffror ÅÅÅÅMMDDXXXN
-    konsument:
-      type: object
-      description:
-        Konsumenten är organisationen som har utvecklat konsumenttjänsten.
-        I vissa fall kan inte vidareförmedlingstjänsten ta reda på vem konsumenten är. Då kommer detta fält vara tomt. Det kommer dock alltid att vara ifyllt i de lägen som det behöver användas för auktorisation.
-      properties:
-        namn:
-          type: string
-        organisationsnummer:
-          type: string
-          description:
-            Konsumentens organisationsnummer. Format 12 siffror utan bindestreck, alltså 16XXXXXXXXXX för juridiska personer och 19/20XXXXXXXXXX för fysiska
-      required:
-        - namn
-        - organisationsnummer
-    konsumenttjanst:
-      type: string
-      description: Namnet på konsumenttjänsten
-    auktoristionsMetod:
-      type: string
-      description:
-        Visar om konsumenten agerar juridiskt läsombud, eller om prenumerationen istället gäller för användaren. Påverkar vilket värde producentenen skall använda att auktorisera mot.
-        Om parametern utelämnas antas NORMAL
-        Det är inte säkert att alla producenter stödjer hämtning som juridiskt läsombud. Om man försöker hämta som juridskt läsombud mot en producent som inte stöjer det skall producenten skicka ett felsvar (501)
-      enum:
-        - NORMAL
-        - JURIDISKT_LÄSOMBUD
     andringsTyp:
       description:
         Vilken sorts ändring vill man göra
