@@ -1,5 +1,13 @@
 components:
   parameters:
+    clientId:
+      name: client_id
+      description:
+        Ett värde som identifierar anropande part.
+      required: true
+      schema:
+        type: string
+        format: uuid
     requestId:
       name: x-request-id
       description:
