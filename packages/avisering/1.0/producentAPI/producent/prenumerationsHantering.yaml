@@ -165,6 +165,8 @@ components:
     andraRequestSchema:
       type: object
       properties:
+        # Attributen om kan ändras är slutdatum, kundhändelsetyper eller taggar
+        # Övriga properties används för att identifera prenumerationen och vem som vill göra ändringen
         producentPrenumerationsID:
           $ref: '../common/schemas.yaml#/components/schemas/producentPrenumerationsID'
         anvandare:
