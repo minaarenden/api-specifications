@@ -97,9 +97,8 @@ components:
           required:
             - identifierare
             - typ
-      anyOf:
-        - required: [kund]
-        - required: [arende]
+      # Antingen kund, ärende eller båda
+      minProperties: 1
     producentPrenumerationsID:
       type: string
       description:
