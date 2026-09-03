@@ -39,7 +39,7 @@ components:
         När prenumerationen läggs upp eller ändras kan man göra det med kundhändelsetyper som wildcars. I svaret samt i detaljerna om en prenumeration kommer alla kundhändelsetyper på lövnivå
       items:
         type: string
-    onskadAviseringstyp:
+    onskadAviseringsTyp:
       type: string
       description:
         Visar om konsumenten önskar få notifieringarna som kundhändelser eller notiser. Om konsumenten önskar kundhändelser OCH producenten också vill skicka som kundhändelser kommer de som kundhändelser, annars skickas notiser

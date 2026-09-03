@@ -105,7 +105,7 @@ components:
             Vidareförmedlingstjäntsen har satt slutdatum så att det är max ett år framåt i tiden.
           type: string
           format: date
-        onskadAviseringstyp:
+        onskadAviseringsTyp:
           $ref: '../common/schemas.yaml#/components/schemas/onskadAviseringsTyp'
         auktoristionsMetod:
           $ref: '../common/schemas.yaml#/components/schemas/auktoristionsMetod'

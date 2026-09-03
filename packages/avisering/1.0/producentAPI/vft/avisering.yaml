@@ -109,7 +109,7 @@ components:
             required:
             - producentPrenumerationsID
             - oneOf(kundhandelse, notis)
-            - aviseringstyp
+            - aviseringsTyp
       required:
         - aviseringar
     kundhandelseID:
