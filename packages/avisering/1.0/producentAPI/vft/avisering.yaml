@@ -24,6 +24,10 @@ paths:
           description: Accepted. Vidareförmedlingstjänsten har tagit emot aviseringarna och kommer att göra en best effort för att leverera dem till rätt mottagare
         "413":
           description: Meddelandet för stort. Minska mängden aviseringar
+          content:
+            application/problem+json:
+              schema:
+                $ref: '../common/schemas.yaml#/components/schemas/error'
 components:
   schemas:
     aviseringarRequestSchema:

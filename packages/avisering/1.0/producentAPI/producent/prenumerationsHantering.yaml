@@ -27,10 +27,18 @@ paths:
                 $ref: '#/components/schemas/upplaggResponseSchema'
         "403":
           description: Användaren/konsumenten var inte auktoriserad på någon begärd kundhändelsetyp. Ingen prenumeration är upplagd
+          content:
+            application/problem+json:
+              schema:
+                $ref: '../common/schemas.yaml#/components/schemas/error'
         "501":
           description:
             Producenten stödjer inte efterfrågad funktionalitet.
             Det kan t ex röra sig om anrop med taggar, juridiskt läsombud eller att identifera kund med ärende
+          content:
+            application/problem+json:
+              schema:
+                $ref: '../common/schemas.yaml#/components/schemas/error'
   /kundhandelser-prenumerationer/borttag:
     post:
       summary: Ta bort en prenumeration
@@ -48,8 +56,16 @@ paths:
           description: Prenumerationen borttagen
         "404":
           description: Skickas till exempel när producentPrenumerationsID inte finns
+          content:
+            application/problem+json:
+              schema:
+                $ref: '../common/schemas.yaml#/components/schemas/error'
         "403":
           description: Skickas när prenumerationen tillhör en annan användare eller konsumenttjänst
+          content:
+            application/problem+json:
+              schema:
+                $ref: '../common/schemas.yaml#/components/schemas/error'
   /kundhandelser-prenumerationer/andra:
     post:
       summary: Ändra en prenumerations
@@ -71,11 +87,23 @@ paths:
                 $ref: '#/components/schemas/andraResponseSchema'
         "404":
           description: Skickas till exempel när producentPrenumerationsID inte finns eller om konsumenten försöker ta bort en kundhändelsetyp eller tag som inte ingår i prenumerationen
+          content:
+            application/problem+json:
+              schema:
+                $ref: '../common/schemas.yaml#/components/schemas/error'
         "403":
           description: Skickas när prenumerationen tillhör en annan användare eller konsumenttjänst
+          content:
+            application/problem+json:
+              schema:
+                $ref: '../common/schemas.yaml#/components/schemas/error'
         "501":
           description:
             Producenten stödjer inte efterfrågad funktionalitet. (ändring av taggar)
+          content:
+            application/problem+json:
+              schema:
+                $ref: '../common/schemas.yaml#/components/schemas/error'
 components:
   schemas:
     upplaggRequestSchema:

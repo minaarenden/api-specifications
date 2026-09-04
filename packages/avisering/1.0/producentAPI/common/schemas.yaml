@@ -14,6 +14,28 @@ components:
       enum:
         - NORMAL
         - JURIDISKT_LÄSOMBUD
+    error:
+      tyoe: object
+      description: Behållare för felmeddelande enligt DIGGs REST-API-profil och RFC 9457
+      properties:
+        type:
+          description: En URI som identifierar problemtypen som skall vara mer specialiserad än statuskoden. URI:n skall peka på dokumentation av feltypen om den används.
+          type: string
+        title:
+          description: En kort beskrivning av problemtypen. Dvs att beskrivningen alltid ska vara identisk för samma typ av fel. Om inte type är angivet skall title reflektera beskrivningen av statuskoden.
+          type: string
+        status:
+          description: Detsamma som statuskoden för HTTP-svaret om det används. Kan vara lämpligt att använda om svaret behöver vara självförklarande.
+          type: integer
+        detail:
+          description: Kort beskrivning av det faktiska felet, avsedd för läsning av människa.
+          type: string
+        instance:
+          description: En URI som identifierar den faktiska resursen.
+          type: string
+      required:
+        - title
+        - status
     konsument:
       type: object
       description:

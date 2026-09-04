@@ -28,8 +28,16 @@ paths:
                 $ref: '#/components/schemas/detaljerResponseSchema'
         "404":
           description: ProducentPrenumerationsID finns inte
+          content:
+            application/problem+json:
+              schema:
+                $ref: '../common/schemas.yaml#/components/schemas/error'
         "403":
           description: ProducentPrenumerationsID tillhör en annan konsumenttjänst
+          content:
+            application/problem+json:
+              schema:
+                $ref: '../common/schemas.yaml#/components/schemas/error'
 components:
   schemas:
     detaljerRequestSchema:
