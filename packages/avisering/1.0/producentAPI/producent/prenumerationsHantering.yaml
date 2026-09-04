@@ -70,7 +70,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/andraResponseSchema'
         "404":
-          description: Skickas till exempel när producentPrenumerationsID inte finns
+          description: Skickas till exempel när producentPrenumerationsID inte finns eller om konsumenten försöker ta bort en kundhändelsetyp eller tag som inte ingår i prenumerationen
         "403":
           description: Skickas när prenumerationen tillhör en annan användare eller konsumenttjänst
         "501":
