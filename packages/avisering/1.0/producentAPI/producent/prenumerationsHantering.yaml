@@ -25,12 +25,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/upplaggResponseSchema'
-        "403":
-          description: Användaren/konsumenten var inte auktoriserad på någon begärd kundhändelsetyp. Ingen prenumeration är upplagd
-          content:
-            application/problem+json:
-              schema:
-                $ref: '../common/schemas.yaml#/components/schemas/error'
         "501":
           description:
             Producenten stödjer inte efterfrågad funktionalitet.
