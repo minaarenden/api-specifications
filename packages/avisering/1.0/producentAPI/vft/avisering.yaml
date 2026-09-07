@@ -12,8 +12,8 @@ paths:
         och att aviseringen av den inträffar får vara max 5 minuter. Storleken på varje anrop får vara max 2 megabyte, om det behövs flera aviseringar 
         vid ett givet tillfälle får de delas upp på olika anrop. Dessutom finns en begränsning på max 10 parallella anrop.
       parameters:
-        - $ref: '../common/parameters.yaml#/components/parameters/clientId'
-        - $ref: '../common/parameters.yaml#/components/parameters/requestId'
+        - $ref: '../../common/parameters.yaml#/components/parameters/clientId'
+        - $ref: '../../common/parameters.yaml#/components/parameters/requestId'
       requestBody:
         content:
           application/json:
@@ -27,7 +27,7 @@ paths:
           content:
             application/problem+json:
               schema:
-                $ref: '../common/schemas.yaml#/components/schemas/error'
+                $ref: '../../common/schemas.yaml#/components/schemas/error'
 components:
   schemas:
     aviseringarRequestSchema:
@@ -40,7 +40,7 @@ components:
             type: object
             properties:
               producentPrenumerationsID:
-                $ref: '../common/schemas.yaml#/components/schemas/producentPrenumerationsID'
+                $ref: '../../common/schemas.yaml#/components/schemas/producentPrenumerationsID'
               kundhandelse:
                 type: object
                 description: Det ena alternativet är att den nya eller ändrade kundhändelsen skickas med i sin helhet

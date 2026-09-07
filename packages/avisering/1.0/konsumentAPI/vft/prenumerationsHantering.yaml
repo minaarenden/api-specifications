@@ -1,0 +1,30 @@
+openapi: 3.0.3
+info:
+  title: Vidareförmedlingstjänstens API mot konsumenter för avisering - Hantering av prenumerationer
+  description:
+    En beskrivning av API:et som Mina ärendens vidareförmedlingstjänst sätter upp mot konsumenter så att de kan hantera sina prenumerationer
+  version: 1.0
+paths:
+  /kundhandelser-prenumerationer/upplagg:
+    /post:
+      summary: Lägg upp prenumeration
+      description: Anropas av konsumenttjänsten när den vill lägga upp en prenumeration på kundhändelser
+      parameters:
+      requestBody:
+      responses:
+  /kundhandelser-prenumerationer/borttag:
+    /post:
+      summary: Ta bort en prenumeration
+      description: Anropas av konsumenttjänsten när den vill ta bort en prenumeration på kundhändelser
+      parameters:
+      requestBody:
+      responses:
+  /kundhandelser-prenumerationer/andra:
+    /post:
+      summary: Ändra en prenumeration
+      description: Anropas av konsumenttjänsten när den vill ändra en prenumeration på kundhändelser
+      parameters:
+      requestBody:
+      responses:
+components:
+  

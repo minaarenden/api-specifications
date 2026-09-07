@@ -11,8 +11,8 @@ paths:
       summary: Lägg upp prenumeration
       description: Anropas från vidareförmedlingstjänsten när en konsument vill lägga upp en prenumeration på kundhändelser
       parameters:
-        - $ref: '../common/parameters.yaml#/components/parameters/requestId'
-        - $ref: '../common/parameters.yaml#/components/parameters/correlationId'
+        - $ref: '../../common/parameters.yaml#/components/parameters/requestId'
+        - $ref: '../../common/parameters.yaml#/components/parameters/correlationId'
       requestBody:
         content:
           application/json:
@@ -44,8 +44,8 @@ paths:
       summary: Ta bort en prenumeration
       description: Anropas från vidareförmedlingstjänsten när en konsument vill ta bort en prenumeration på kundhändelser
       parameters:
-        - $ref: '../common/parameters.yaml#/components/parameters/requestId'
-        - $ref: '../common/parameters.yaml#/components/parameters/correlationId'
+        - $ref: '../../common/parameters.yaml#/components/parameters/requestId'
+        - $ref: '../../common/parameters.yaml#/components/parameters/correlationId'
       requestBody:
         content:
           application/json:
@@ -59,20 +59,20 @@ paths:
           content:
             application/problem+json:
               schema:
-                $ref: '../common/schemas.yaml#/components/schemas/error'
+                $ref: '../../common/schemas.yaml#/components/schemas/error'
         "403":
           description: Skickas när prenumerationen tillhör en annan användare eller konsumenttjänst
           content:
             application/problem+json:
               schema:
-                $ref: '../common/schemas.yaml#/components/schemas/error'
+                $ref: '../../common/schemas.yaml#/components/schemas/error'
   /kundhandelser-prenumerationer/andra:
     post:
       summary: Ändra en prenumerations
       description: Anropas från vidareförmedlingtjänsten när en konsument vill ändra en prenumeration
       parameters:
-        - $ref: '../common/parameters.yaml#/components/parameters/requestId'
-        - $ref: '../common/parameters.yaml#/components/parameters/correlationId'
+        - $ref: '../../common/parameters.yaml#/components/parameters/requestId'
+        - $ref: '../../common/parameters.yaml#/components/parameters/correlationId'
       requestBody:
         content:
           application/json:
@@ -90,29 +90,29 @@ paths:
           content:
             application/problem+json:
               schema:
-                $ref: '../common/schemas.yaml#/components/schemas/error'
+                $ref: '../../common/schemas.yaml#/components/schemas/error'
         "403":
           description: Skickas när prenumerationen tillhör en annan användare eller konsumenttjänst
           content:
             application/problem+json:
               schema:
-                $ref: '../common/schemas.yaml#/components/schemas/error'
+                $ref: '../../common/schemas.yaml#/components/schemas/error'
         "501":
           description:
             Producenten stödjer inte efterfrågad funktionalitet. (ändring av taggar)
           content:
             application/problem+json:
               schema:
-                $ref: '../common/schemas.yaml#/components/schemas/error'
+                $ref: '../../common/schemas.yaml#/components/schemas/error'
 components:
   schemas:
     upplaggRequestSchema:
       type: object
       properties:
         part:
-          $ref: '../common/schemas.yaml#/components/schemas/part'
+          $ref: '../../common/schemas.yaml#/components/schemas/part'
         kundhandelseTyper:
-          $ref: '../common/schemas.yaml#/components/schemas/kundhandelseTyper'
+          $ref: '../../common/schemas.yaml#/components/schemas/kundhandelseTyper'
         taggar:
           type: array
           description:
@@ -122,11 +122,11 @@ components:
           items:
             type: string
         anvandare:
-          $ref: '../common/schemas.yaml#/components/schemas/anvandare'
+          $ref: '../../common/schemas.yaml#/components/schemas/anvandare'
         konsument:
-          $ref: '../common/schemas.yaml#/components/schemas/konsument'
+          $ref: '../../common/schemas.yaml#/components/schemas/konsument'
         konsumenttjanst:
-          $ref: '../common/schemas.yaml#/components/schemas/konsumenttjanst'
+          $ref: '../../common/schemas.yaml#/components/schemas/konsumenttjanst'
         slutdatum:
           description:
             Önskat slutdatum.
@@ -134,9 +134,9 @@ components:
           type: string
           format: date
         onskadAviseringsTyp:
-          $ref: '../common/schemas.yaml#/components/schemas/onskadAviseringsTyp'
+          $ref: '../../common/schemas.yaml#/components/schemas/onskadAviseringsTyp'
         auktoristionsMetod:
-          $ref: '../common/schemas.yaml#/components/schemas/auktoristionsMetod'
+          $ref: '../../common/schemas.yaml#/components/schemas/auktoristionsMetod'
       required:
         - part
         - konsumenttjanst
@@ -146,7 +146,7 @@ components:
       type: object
       properties:
         producentPrenumerationsID:
-          $ref: '../common/schemas.yaml#/components/schemas/producentPrenumerationsID'
+          $ref: '../../common/schemas.yaml#/components/schemas/producentPrenumerationsID'
         kundhandelseTypsInformation:
           type: array
           description:
@@ -178,15 +178,15 @@ components:
       type: object
       properties:
         producentPrenumerationsID:
-          $ref: '../common/schemas.yaml#/components/schemas/producentPrenumerationsID'
+          $ref: '../../common/schemas.yaml#/components/schemas/producentPrenumerationsID'
         anvandare:
-          $ref: '../common/schemas.yaml#/components/schemas/anvandare'
+          $ref: '../../common/schemas.yaml#/components/schemas/anvandare'
         konsument:
-          $ref: '../common/schemas.yaml#/components/schemas/konsument'
+          $ref: '../../common/schemas.yaml#/components/schemas/konsument'
         konsumenttjanst:
-          $ref: '../common/schemas.yaml#/components/schemas/konsumenttjanst'
+          $ref: '../../common/schemas.yaml#/components/schemas/konsumenttjanst'
         auktoristionsMetod:
-          $ref: '../common/schemas.yaml#/components/schemas/auktoristionsMetod'
+          $ref: '../../common/schemas.yaml#/components/schemas/auktoristionsMetod'
       required:
         - producentPrenumerationsID
         - konsumenttjanst
@@ -196,15 +196,15 @@ components:
         # Attributen om kan ändras är slutdatum, kundhändelsetyper eller taggar
         # Övriga properties används för att identifera prenumerationen och vem som vill göra ändringen
         producentPrenumerationsID:
-          $ref: '../common/schemas.yaml#/components/schemas/producentPrenumerationsID'
+          $ref: '../../common/schemas.yaml#/components/schemas/producentPrenumerationsID'
         anvandare:
-          $ref: '../common/schemas.yaml#/components/schemas/anvandare'
+          $ref: '../../common/schemas.yaml#/components/schemas/anvandare'
         konsument:
-          $ref: '../common/schemas.yaml#/components/schemas/konsument'
+          $ref: '../../common/schemas.yaml#/components/schemas/konsument'
         konsumenttjanst:
-          $ref: '../common/schemas.yaml#/components/schemas/konsumenttjanst'
+          $ref: '../../common/schemas.yaml#/components/schemas/konsumenttjanst'
         auktorisationsMetod:
-          $ref: '../common/schemas.yaml#/components/schemas/auktoristionsMetod'
+          $ref: '../../common/schemas.yaml#/components/schemas/auktoristionsMetod'
         slutdatum:
           description:
             Nytt önskat slutdatum
