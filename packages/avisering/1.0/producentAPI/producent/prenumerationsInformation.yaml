@@ -1,0 +1,97 @@
+openapi: 3.0.3
+info:
+  title: Producentens API för avisering - Hämtning av prenumerationsinformation
+  description:
+    En beskrivning av API:et som en producent behöver sätta upp för att erbjuda aviseringsfunktionalitet i samarbete med Min ärendens vidareförmedlingstjänst
+    Denna fil innehåller beskrivningar av endpoints för hämtning av prenumerationsinformation
+  version: 1.0
+paths:
+  /kundhandelser-prenumerationer/detaljer:
+    post:
+      summary: Hämta detaljer för en prenumeration
+      description: Anropas från vidareförmedlingstjänsten när den eller en konsument vill hämta detaljer för en prenumeration
+      parameters:
+        - $ref: '../../common/parameters.yaml#/components/parameters/requestId'
+        - $ref: '../../common/parameters.yaml#/components/parameters/correlationId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/detaljerRequestSchema'
+      responses:
+        "200":
+          description:
+            Detaljer för en prenumeration
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/detaljerResponseSchema'
+        "404":
+          description: ProducentPrenumerationsID finns inte
+          content:
+            application/problem+json:
+              schema:
+                $ref: '../../common/schemas.yaml#/components/schemas/error'
+        "403":
+          description: ProducentPrenumerationsID tillhör en annan konsumenttjänst
+          content:
+            application/problem+json:
+              schema:
+                $ref: '../../common/schemas.yaml#/components/schemas/error'
+components:
+  schemas:
+    detaljerRequestSchema:
+      type: object
+      properties:
+        producentPrenumerationsID:
+          $ref: '../../common/schemas.yaml#/components/schemas/producentPrenumerationsID'
+        konsument:
+          $ref: '../../common/schemas.yaml#/components/schemas/konsument'
+        konsumenttjanst:
+          $ref: '../../common/schemas.yaml#/components/schemas/konsumenttjanst'
+      required:
+        - producentPrenumerationsID
+        - konsumenttjanst
+    detaljerResponseSchema:
+      type: object
+      properties:
+        producentPrenumerationsID:
+          $ref: '../../common/schemas.yaml#/components/schemas/producentPrenumerationsID'
+        part:
+          $ref: '../../common/schemas.yaml#/components/schemas/part'
+        kundhandelseTyper:
+          $ref: '../../common/schemas.yaml#/components/schemas/kundhandelseTyper'
+        anvandare:
+          $ref: '../../common/schemas.yaml#/components/schemas/anvandare'
+        konsument:
+          $ref: '../../common/schemas.yaml#/components/schemas/konsument'
+        konsumenttjanst:
+          $ref: '../../common/schemas.yaml#/components/schemas/konsumenttjanst'
+        startdatum:
+          description:
+            Startdatum för prenumerationen, alltså när den först lades upp
+          type: string
+          format: date
+        slutdatum:
+          description:
+            Slutdatum för prenumerationen (inklusive)
+          type: string
+          format: date
+        auktiorisationsMetod:
+          $ref: '../../common/schemas.yaml#/components/schemas/auktoristionsMetod'
+        onskadAviseringsTyp:
+          $ref: '../../common/schemas.yaml#/components/schemas/onskadAviseringsTyp'
+        utokadInformation:
+          description:
+            Ett fält som producenten kan använda för att fylla med innehåll om prenumerationen, liknande hur fältet utokadInformation används för kundhändelser.
+            JSON-objekt med valfria attribut
+          type: object
+      required:
+        - producentPrenumerationsID
+        - part
+        - konsumenttjanst
+        - startdatum
+        - slutdatum
+        - onskadAviseringsTyp
+
+

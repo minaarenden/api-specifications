@@ -20,7 +20,9 @@ paths:
               $ref: '#/components/schemas/upplaggRequestSchema'
       responses:
         "200":
-          description: Prenumerationen upplagd. Detta svar skickas om användaren/konsumenten var auktoriserad på minst en kundhändelsetype. Om den inte var auktoriserad på någon kundhändelsetyp skall 403 skickas istället
+          description:
+            Prenumerationen upplagd. 
+            Observera att det kan vara så att användaren/konsumenttjänsten inte var behörig på någonting av det man begärde att prenumerera på. Detta faktum indikeras i svaret men det blir ändå ett 200-svar
           content:
             application/json:
               schema:
@@ -28,11 +30,11 @@ paths:
         "501":
           description:
             Producenten stödjer inte efterfrågad funktionalitet.
-            Det kan t ex röra sig om anrop med taggar, juridiskt läsombud eller att identifera kund med ärende
+            Det kan t ex röra sig om anrop med taggar, juridiskt läsombud eller att identifera part med ärende
           content:
             application/problem+json:
               schema:
-                $ref: '../common/schemas.yaml#/components/schemas/error'
+                $ref: '../../common/schemas.yaml#/components/schemas/error'
   /kundhandelser-prenumerationer/borttag:
     post:
       summary: Ta bort en prenumeration

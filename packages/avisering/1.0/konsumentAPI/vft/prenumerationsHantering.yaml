@@ -6,25 +6,117 @@ info:
   version: 1.0
 paths:
   /kundhandelser-prenumerationer/upplagg:
-    /post:
+    post:
       summary: Lägg upp prenumeration
       description: Anropas av konsumenttjänsten när den vill lägga upp en prenumeration på kundhändelser
       parameters:
+        - $ref: '../../common/parameters.yaml#/components/parameters/clientId'
+        - $ref: '../../common/parameters.yaml#/components/parameters/requestId'
       requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/upplaggRequestSchema'
       responses:
+        "200":
+          description:
+            Prenumerationen upplagd.
+            Observera att det kan vara så att användaren/konsumenttjänsten inte var behörig på någonting av det man begärde att prenumerera på. Detta faktum indikeras i svaret men det blir ändå ett 200-svar
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/upplaggResponseSchema'
+        "400":
+          description:
+            Skickas till exempel när man vill ändra till ett historiskt slutdatum
+          content:
+            application/problem+json:
+              schema:
+                $ref: '../../common/schemas.yaml#/components/schemas/error'
+        "501":
+          description:
+            En producent stödjer inte efterfrågad funktionslitet.
+            Det kan t ex röra sig om anrop med taggar, juridiskt läsombud eller att identifiera part med ärende
+          content:
+            application/problem+json:
+              schema:
+                $ref: '../../common/schemas.yaml#/components/schemas/error'
   /kundhandelser-prenumerationer/borttag:
-    /post:
+    post:
       summary: Ta bort en prenumeration
       description: Anropas av konsumenttjänsten när den vill ta bort en prenumeration på kundhändelser
       parameters:
+        - $ref: '../../common/parameters.yaml#/components/parameters/clientId'
+        - $ref: '../../common/parameters.yaml#/components/parameters/requestId'
       requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/borttagRequestSchema'
       responses:
+        "200":
+          description: Prenumerationen borttagen
+        "403":
+          description: Skickas när prenumerationen tillhör en annan användare eller konsumenttjänst
+          content:
+            application/problem+json:
+              schema:
+                $ref: '../../common/schemas.yaml#/components/schemas/error'
+        "404":
+          description: Skickas till exempel när totalPrenumerationsID inte finns
+          content:
+            application/problem+json:
+              schema:
+                $ref: '../../common/schemas.yaml#/components/schemas/error'
   /kundhandelser-prenumerationer/andra:
-    /post:
+    post:
       summary: Ändra en prenumeration
       description: Anropas av konsumenttjänsten när den vill ändra en prenumeration på kundhändelser
       parameters:
+        - $ref: '../../common/parameters.yaml#/components/parameters/clientId'
+        - $ref: '../../common/parameters.yaml#/components/parameters/requestId'
       requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/andraRequestSchema'
       responses:
+        "200":
+          description: Ändringen genomförd
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/andraResponseSchema'
+        "404":
+          description: Skickas till exempel när totalPrenumerationsID inte finns eller om konsumenten försöker ta bort en kundhändelsetyp eller tag som inte ingår i prenumerationen
+          content:
+            application/problem+json:
+              schema:
+                $ref: '../../common/schemas.yaml#/components/schemas/error'
+        "403":
+          description: Skickas när prenumerationen tillhör en annan användare eller konsumenttjänst
+          content:
+            application/problem+json:
+              schema:
+                $ref: '../../common/schemas.yaml#/components/schemas/error'
+        "400":
+          description: Skickas till exempel när man försöker ändra till ett historiskt slutdatum
+          content:
+            application/problem+json:
+              schema:
+                $ref: '../../common/schemas.yaml#/components/schemas/error'
+        "501":
+          description:
+            Producenten stödjer inte efterfrågad funktionalitet. (ändring av taggar)
+          content:
+            application/problem+json:
+              schema:
+                $ref: '../../common/schemas.yaml#/components/schemas/error'
 components:
+  schemas:
+    upplaggRequestSchema:
+    upplaggResponseSchema:
+    borttagRequestSchema:
+    andraRequestSchema:
+    andraResponseSchema:
   
