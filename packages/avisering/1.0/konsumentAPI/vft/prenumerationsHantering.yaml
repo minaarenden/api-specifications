@@ -162,29 +162,7 @@ components:
           type: string
           format: date
         producenter:
-          description: Lista med producenter som blev tillfrågade och deras status
-          type: array
-          items:
-            type: object
-            properties:
-              producent:
-                type: string
-                description: producentens namn
-              httpStatus:
-                type: integer
-                description: HTTP-koden som kom från producenten
-              producentPrenumerationsID:
-                $ref: '../../common/schemas.yaml#/components/schemas/producentPrenumerationsID'
-              producentMessage:
-                type: string
-                description: Eventuellt felmedelande från producenten
-              vftMessage:
-                type: string
-                description: Eventuellt felmeddelande från vidareförmedlingstjänsten
-            required:
-              - producent
-              - httpStatus
-              - producentPrenumerationsID
+          $ref: '#/components/schemas/producenterStatus'
         kundhandelseTypsInformation:
           description:
             En lista med information om hur det gick med efterfrågade kundhändelsetyper
@@ -216,6 +194,78 @@ components:
         - totalStatus
         - faktisktSlutdatum
     borttagRequestSchema:
+      type: object
+      properties:
+        totalPrenumerationsID:
+          $ref: '../../common/schemas.yaml#/components/schemas/totalPrenumerationsID'
+        anvandare:
+          $ref: '../../common/schemas.yaml#/components/schemas/anvandare'
+        auktorisationsMetod:
+          $ref: '../../common/schemas.yaml#/components/schemas/auktoristionsMetod'
+      required:
+        - totalPrenumerationsID
     andraRequestSchema:
+      type: object
+      properties:
+        totalPrenumerationsID:
+          $ref: '../../common/schemas.yaml#/components/schemas/totalPrenumerationsID'
+        anvandare:
+          $ref: '../../common/schemas.yaml#/components/schemas/anvandare'
+        auktorisationsMetod:
+          $ref: '../../common/schemas.yaml#/components/schemas/auktoristionsMetod'
+        onskatSlutdatum:
+          description:
+            Nytt önskat slutdatum.
+            Om konsumenttjänsten anger ett datum som är längre bort än ett år framåt i tiden så kommer vidareförmedlingstjänsten att sätta om datumet till ett år framåt i tiden
+          type: string
+          format: date
+        kundhandelseTypAndringar:
+          $ref: '../../common/schemas.yaml#/components/schemas/kundhandelseTypAndrngar'
+        tagAndringar:
+          $ref: '../../common/schemas.yaml#/components/schemas/tagAndringar'
+      required:
+        - totalPrenumerationsID
     andraResponseSchema:
+      type: object
+      properties:
+        andringar:
+          type: array
+          items:
+            type: object
+            properties:
+              faktisktSlutdatum:
+                description: Det slutdatum som det faktiskt ändrades till
+                type: string
+                format: date
+              kundhandelseTypAndringar:
+                $ref: '../../common/schemas.yaml#/components/schemas/kundhandelseTypAndrngar'
+              tagAndringar:
+                $ref: '../../common/schemas.yaml#/components/schemas/tagAndringar'
+        producenter:
+          $ref: '#/components/schemas/producenterStatus'
+    producenterStatus:
+      description: Lista med producenter som blev tillfrågade och deras status
+      type: array
+      items:
+        type: object
+        properties:
+          producent:
+            type: string
+            description: producentens namn
+          httpStatus:
+            type: integer
+            description: HTTP-koden som kom från producenten
+          producentPrenumerationsID:
+            $ref: '../../common/schemas.yaml#/components/schemas/producentPrenumerationsID'
+          producentMessage:
+            type: string
+            description: Eventuellt felmedelande från producenten
+          vftMessage:
+            type: string
+            description: Eventuellt felmeddelande från vidareförmedlingstjänsten
+        required:
+          - producent
+          - httpStatus
+          - producentPrenumerationsID
+
   

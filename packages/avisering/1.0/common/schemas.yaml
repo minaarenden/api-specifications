@@ -1,5 +1,12 @@
 components:
   schemas:
+    andringsTyp:
+      description:
+        Vilken sorts ändring vill man göra
+      type: string
+      enum:
+        - TILLÄGG
+        - BORTTAG
     anvandare:
       type: string
       description:
@@ -61,6 +68,23 @@ components:
         När prenumerationen läggs upp eller ändras kan man göra det med kundhändelsetyper som wildcars. I svaret samt i detaljerna om en prenumeration kommer alla kundhändelsetyper på lövnivå
       items:
         type: string
+    kundhandelseTypAndrngar:
+      description:
+        Varje tillägg eller borttag av kundhändelsetyp skall ha ett objekt i den här listan
+      type: array
+      items:
+        type: object
+        properties:
+          kundhandelseTyp:
+            description:
+              kundhandelseTyp	Vilken kundhändelsetyp som skall läggas till eller tas bort
+              Kan vara wildcards
+            type: string
+          andringsTyp:
+            $ref: '#/components/schemas/andringsTyp'
+        required:
+          - kundhandelseTyp
+          - andringsTyp
     onskadAviseringsTyp:
       type: string
       description:
@@ -135,6 +159,21 @@ components:
         Det är inte säkert att alla producenter stödjer taggar. Om det inte stöds får de svara med ett felsvar (501)
       items:
         type: string
+    tagAndringar:
+      type: array
+      description: En lista med ändringar på kundhändelsetyper som faktiskt skett. Om inga ändringar skett är listan tom
+      items:
+        type: object
+        properties:
+          tag:
+            description:
+              Vilken tag som ändrades
+            type: string
+          andringsTyp:
+            $ref: '#/components/schemas/andringsTyp'
+        required:
+          - tag
+          - andringsTyp
     totalPrenumerationsID:
       type: string
       description:
