@@ -125,7 +125,7 @@ components:
           $ref: '../../common/schemas.yaml#/components/schemas/taggar'
         anvandare:
           $ref: '../../common/schemas.yaml#/components/schemas/anvandare'
-        slutdatum:
+        onskatSlutdatum:
           description:
             Önskat slutdatum.
             Om konsumenttjänsten anger ett datum som är längre bort än ett år framåt i tiden så kommer vidareförmedlingstjänsten att sätta om datumet till ett år framåt i tiden
@@ -137,9 +137,84 @@ components:
           $ref: '../../common/schemas.yaml#/components/schemas/auktoristionsMetod'
       required:
         - part
-        - slutdatum
+        - onskatSlutdatum
         - onskadAviseringstyp
     upplaggResponseSchema:
+      type: object
+      properties:
+        totalPrenumerationsID:
+          $ref: '../../common/schemas.yaml#/components/schemas/totalPrenumerationsID'
+        totalStatus:
+          description:
+            Visar hur det gick med upplägget av prenumerationen.
+            Tre möjliga värden
+            OK - Det gick bra hos alla producenter och användaren/konsumenttjänsten var auktoriserad på alla kundhänelsetyper
+            PARTIELL - Det gick bra hos några producenter och kundhändelesetyper men inte alla som var begärda
+            TOM - Det gick inte bra hos någon producent/kundhändelsetyp
+          type: string
+          enum:
+            - OK
+            - PARTIELL
+            - TOM
+        faktisktSlutdatum:
+          description:
+            Slutdatum som det faktiskt blev i prenumerationen
+          type: string
+          format: date
+        producenter:
+          description: Lista med producenter som blev tillfrågade och deras status
+          type: array
+          items:
+            type: object
+            properties:
+              producent:
+                type: string
+                description: producentens namn
+              httpStatus:
+                type: integer
+                description: HTTP-koden som kom från producenten
+              producentPrenumerationsID:
+                $ref: '../../common/schemas.yaml#/components/schemas/producentPrenumerationsID'
+              producentMessage:
+                type: string
+                description: Eventuellt felmedelande från producenten
+              vftMessage:
+                type: string
+                description: Eventuellt felmeddelande från vidareförmedlingstjänsten
+            required:
+              - producent
+              - httpStatus
+              - producentPrenumerationsID
+        kundhandelseTypsInformation:
+          description:
+            En lista med information om hur det gick med efterfrågade kundhändelsetyper
+            Svaret innehåller information om vilka kundhändelsetyper på lövnivå man har fått prenumeration på samt hur många kundhändelsetyper på lövnivå man inte är auktoriserad för
+            Om producenten svarade med ett felsvar är denna lista tom
+          type: array
+          items:
+            type: object
+            properties:
+              begardKundhandelseTyp:
+                type: string
+                description: Vad begärdes (med eventuell wildcard)
+              producent:
+                type: string
+                description: Producentens namn
+              kundhandelseTyper:
+                type: array
+                description: Auktoriserade kundhändelsetypers (på lövenivå) identifierade
+                items:
+                  type: string
+              antalIckeAuktoriserade:
+                type: integer
+                description: Hur många kundhändelsetyper för denna begärda kundhändelsetyp (och producent) var användaren/konsumenttjänsten inte auktoriserad på
+            required:
+              - begardKundhandelseTyp
+              - producent
+              - antalIckeAuktoriserade
+      required:
+        - totalStatus
+        - faktisktSlutdatum
     borttagRequestSchema:
     andraRequestSchema:
     andraResponseSchema:

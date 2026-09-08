@@ -135,4 +135,11 @@ components:
         Det är inte säkert att alla producenter stödjer taggar. Om det inte stöds får de svara med ett felsvar (501)
       items:
         type: string
+    totalPrenumerationsID:
+      type: string
+      description:
+        Ett unikt i som representerar prenumerationen (helheten, potentiellt över flera producenter).
+        Skapas av Vidareförmedlingstjänsten
+        Om en prenumeration läggs upp och den inte går bra hos någån producent skapas inget ID
+      format: uuid
 
