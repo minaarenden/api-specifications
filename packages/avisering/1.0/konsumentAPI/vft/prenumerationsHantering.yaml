@@ -115,6 +115,30 @@ paths:
 components:
   schemas:
     upplaggRequestSchema:
+      type: object
+      properties:
+        part:
+          $ref: '../../common/schemas.yaml#/components/schemas/part'
+        kundhandelseTyper:
+          $ref: '../../common/schemas.yaml#/components/schemas/kundhandelseTyper'
+        taggar:
+          $ref: '../../common/schemas.yaml#/components/schemas/taggar'
+        anvandare:
+          $ref: '../../common/schemas.yaml#/components/schemas/anvandare'
+        slutdatum:
+          description:
+            Önskat slutdatum.
+            Om konsumenttjänsten anger ett datum som är längre bort än ett år framåt i tiden så kommer vidareförmedlingstjänsten att sätta om datumet till ett år framåt i tiden
+          type: string
+          format: date
+        onskadAviseringstyp:
+          $ref: '../../common/schemas.yaml#/components/schemas/onskadAviseringsTyp'
+        auktorisationsMetod:
+          $ref: '../../common/schemas.yaml#/components/schemas/auktoristionsMetod'
+      required:
+        - part
+        - slutdatum
+        - onskadAviseringstyp
     upplaggResponseSchema:
     borttagRequestSchema:
     andraRequestSchema:

@@ -127,3 +127,12 @@ components:
         Ett unikt id som sätts av producenten för att representera den här prenumerationen hos dem.
         UUID i 8-4-4-4-12 format
       format: uuid
+    taggar:
+      type: array
+      description:
+        Producenten kan definiera taggar (textsträngar) som pekar ut specifika kundhändelsetyper. T.ex. kan man tänka sig att Skatteverket definierar en tagg som pekar ut alla kundhändelsetyper som har med företagande att göra, eller med beskattningsverksamheten.
+        Varje tagg pekar ut specifika producentärendetyper och/eller specifika kundhändelsetyper.
+        Det är inte säkert att alla producenter stödjer taggar. Om det inte stöds får de svara med ett felsvar (501)
+      items:
+        type: string
+
