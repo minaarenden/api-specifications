@@ -9,7 +9,7 @@ paths:
       summary: Anropas från producenten när de vill skicka aviseringar
       description:
         Producenten samlar ihop aviseringar och skickar de i klump genom anrop till denna endpoint. Fördröjningen mellan att en undhändelse uppstår
-        och att aviseringen av den inträffar får vara max 5 minuter. Storleken på varje anrop får vara max 2 megabyte, om det behövs flera aviseringar 
+        och att aviseringen av den inträffar får vara max 15 minuter. Storleken på varje anrop får vara max 2 megabyte, om det behövs flera aviseringar 
         vid ett givet tillfälle får de delas upp på olika anrop. Dessutom finns en begränsning på max 10 parallella anrop.
       parameters:
         - $ref: '../../common/parameters.yaml#/components/parameters/clientId'
@@ -42,85 +42,16 @@ components:
               producentPrenumerationsID:
                 $ref: '../../common/schemas.yaml#/components/schemas/producentPrenumerationsID'
               kundhandelse:
-                type: object
-                description: Det ena alternativet är att den nya eller ändrade kundhändelsen skickas med i sin helhet
-                properties:
-                  kundhandelseID:
-                    $ref: '#/components/schemas/kundhandelseID'
-                  rubrik:
-                    description: Samma attribut som vid hämtning
-                    type: string
-                  beskrivning:
-                    description: Samma attribut som vid hämtning
-                    type: string
-                  sprak:
-                    description: Samma attribut som vid hämtning
-                    type: string
-                  producent:
-                    description: Samma attribut som vid hämtning
-                    type: string
-                  tidpunkt:
-                    description: Tidpunkten då kundhändelsen uppstod
-                    type: string
-                    format: date-time
-                  kundhandelseTyp:
-                    $ref: '#/components/schemas/kundhandelseTyp'
-                  producentarendetKraverKundatgard:
-                    description: Samma attribut som vid hämtning
-                    type: boolean
-                  producentarendetKlart:
-                    description: Samma attribut som vid hämtning
-                    type: boolean
-                  utokadInformation:
-                    description: Samma attribut som vid hämtning
-                    type: object
-                  referenser:
-                    description: Samma attribut som vid hämtning
-                    type: object
-                required:
-                  - kundhandelseID
-                  - rubrik
-                  - beskrivning
-                  - sprak
-                  - producent
-                  - tidpunkt
-                  - kundhandelseTyp
-                  - producentarendetKraverKundatgard
-                  - producentarendetKlart
+                $ref: '../../common/schemas.yaml#/components/schemas/kundhandelse'
               notis:
-                type: object
-                description: Det andra alternativet är att man får en notis om en ny, ändrad eller borttagen kundhändelse
-                properties:
-                  kundhandelseID:
-                    $ref: '#/components/schemas/kundhandelseID'
-                  kundhandelseTyp:
-                    $ref: '#/components/schemas/kundhandelseTyp'
-                  tidpunkt:
-                    type: string
-                    description: Tidpunkten då förändringen skedde
-                    format: date-time
-                required:
-                  - kundhandelseID
-                  - kundhandelseTyp
-                  - tidpunkt
+                $ref: '../../common/schemas.yaml#/components/schemas/notis'
               aviseringsTyp:
-                type: string
-                description: Beskriver vilken sorts förändring som skedde
-                enum:
-                  - NY
-                  - ANDRAD
-                  - BORTTAGEN
+                $ref: '../../common/schemas.yaml#/components/schemas/aviseringsTyp'
             required:
             - producentPrenumerationsID
             - oneOf(kundhandelse, notis)
             - aviseringsTyp
       required:
         - aviseringar
-    kundhandelseID:
-      type: string
-      description: Identifierare av kundhändelsen. Värdet skall vara permanent så att det blir samma värde om man efterfrågar kundhändelsen via en fråga till operationen hämta kundhändelser
-    kundhandelseTyp:
-      type: string
-      description: Kundhändelsetyp på lövnivå
 
 

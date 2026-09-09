@@ -1,0 +1,47 @@
+openapi: 3.0.3
+info:
+  title: Konsumenttjänstens API för att ta emot aviseringar
+  description: Beskriver det API konsumenttjänsten behöver sätta upp och som vidareförmedlingstjänsten anropar för att skicka aviseringar till konsumenten
+  version: 1.0
+paths:
+  /kundhandelser/aviseringar:
+    post:
+      summary: Anropas från Vidareförmedlingstjänsten när de vill skicka aviseringar
+      description:
+        Vidareförmedlingstjänsten anropar denna tjänst för att skicka aviseringar till konsumenttjänsten.
+        Varje meddelande kan innehålla många aviseringar, men det finns en maxgräns på 2 megabyte per meddelande.
+        Varje avisering kan vara av två olika sorter, antingen som den nya/ändrade kundhändelsen eller som en notis om att det finns en ny/ändrad/borttagen kundhändelse
+        Hanteirngen av aviseringar sker klumpvis med många åt gången, vilket leder till att det kan vara en viss fördröjning från att det sker någonting med kundhändelsen till att aviseringen skickas
+      parameters:
+        - $ref: '../../common/parameters.yaml#/components/parameters/requestId'
+        - $ref: '../../common/parameters.yaml#/components/parameters/correlationId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/aviseringarRequestSchema'
+      responses:
+        "202":
+          description:
+            Accepted
+            Konsumenttjäntsen har tagit emot aviseringarna.
+components:
+  schemas:
+    aviseringarRequestSchema:
+      type: object
+      properties:
+        totalPrenumerationsID:
+          $ref: '../../common/schemas.yaml#/components/schemas/totalPrenumerationsID'
+        producentPrenumerationsID:
+          $ref: '../../common/schemas.yaml#/components/schemas/producentPrenumerationsID'
+        kundhandelse:
+          $ref: '../../common/schemas.yaml#/components/schemas/kundhandelse'
+        notis:
+          $ref: '../../common/schemas.yaml#/components/schemas/notis'
+        aviseringsTyp:
+          $ref: '../../common/schemas.yaml#/components/schemas/aviseringsTyp'
+      required:
+        - totalPrenumerationsID
+        - producentPrenumerationsID
+        - oneOf(kundhandelse, notis)
+        - aviseringsTyp

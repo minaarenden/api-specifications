@@ -21,6 +21,13 @@ components:
       enum:
         - NORMAL
         - JURIDISKT_LÄSOMBUD
+    aviseringsTyp:
+      type: string
+      description: Beskriver vilken sorts förändring som skedde
+      enum:
+        - NY
+        - ANDRAD
+        - BORTTAGEN
     error:
       tyoe: object
       description: Behållare för felmeddelande enligt DIGGs REST-API-profil och RFC 9457
@@ -61,13 +68,65 @@ components:
     konsumenttjanst:
       type: string
       description: Namnet på konsumenttjänsten
+    kundhandelse:
+      type: object
+      description: En kundhändelse representerar en händelse som skett i handläggningen av ett ärende och dessutom att kunden är intresserad av att få reda på detta
+      properties:
+        kundhandelseID:
+          $ref: '#/components/schemas/kundhandelseID'
+        rubrik:
+          description: Samma attribut som vid hämtning
+          type: string
+        beskrivning:
+          description: Samma attribut som vid hämtning
+          type: string
+        sprak:
+          description: Samma attribut som vid hämtning
+          type: string
+        producent:
+          description: Samma attribut som vid hämtning
+          type: string
+        tidpunkt:
+          description: Tidpunkten då kundhändelsen uppstod
+          type: string
+          format: date-time
+        kundhandelseTyp:
+          $ref: '#/components/schemas/kundhandelseTyp'
+        producentarendetKraverKundatgard:
+          description: Samma attribut som vid hämtning
+          type: boolean
+        producentarendetKlart:
+          description: Samma attribut som vid hämtning
+          type: boolean
+        utokadInformation:
+          description: Samma attribut som vid hämtning
+          type: object
+        referenser:
+          description: Samma attribut som vid hämtning
+          type: object
+      required:
+        - kundhandelseID
+        - rubrik
+        - beskrivning
+        - sprak
+        - producent
+        - tidpunkt
+        - kundhandelseTyp
+        - producentarendetKraverKundatgard
+        - producentarendetKlart
+    kundhandelseID:
+      type: string
+      description: Identifierare av kundhändelsen. Värdet skall vara permanent så att det blir samma värde om man efterfrågar kundhändelsen via en fråga till operationen hämta kundhändelser
+    kundhandelseTyp:
+      type: string
+      description: Kundhändelsetyp på lövnivå
     kundhandelseTyper:
       type: array
       description:
         Array av kundhändelsetyper som efterfrågas. Varje typ specificeras som en standardiserad sträng enligt det namnsättningsformat som gäller för kundhändelsetyper.
         När prenumerationen läggs upp eller ändras kan man göra det med kundhändelsetyper som wildcars. I svaret samt i detaljerna om en prenumeration kommer alla kundhändelsetyper på lövnivå
       items:
-        type: string
+        $ref: '#/common/schemas/kundhandelseTyp'
     kundhandelseTypAndrngar:
       description:
         Varje tillägg eller borttag av kundhändelsetyp skall ha ett objekt i den här listan
@@ -85,6 +144,22 @@ components:
         required:
           - kundhandelseTyp
           - andringsTyp
+    notis:
+      type: object
+      description: En notis är information om att det skett någonting med en kundhändelse
+      properties:
+        kundhandelseID:
+          $ref: '../../common/schemas.yaml#/components/schemas/kundhandelseID'
+        kundhandelseTyp:
+          $ref: '../../common/schemas.yaml#/components/schemas/kundhandelseTyp'
+        tidpunkt:
+          type: string
+          description: Tidpunkten då förändringen skedde
+          format: date-time
+      required:
+        - kundhandelseID
+        - kundhandelseTyp
+        - tidpunkt
     onskadAviseringsTyp:
       type: string
       description:
