@@ -1,0 +1,164 @@
+openapi: 3.0.3
+info:
+  title: Vidareförmedlingstjänstens API mot konsumenter för avisering - Hämtning av prenumerationsinformation
+  description:
+    Denna interaktion används när en konsumenttjänst vill kontrollera sina prenumerationer hos VFT. Detta kan till exempel göras i felsökningssyfte.
+  version: 1.0
+paths:
+  /kundhandelser-prenumerationer/lista:
+    post:
+      summary:
+        Listar prenumerationer
+      description:
+        Listar prenumerationer. Frågan kan filtreras för en viss kund/ärende, och för en viss producent
+      parameters:
+        - $ref: '../../common/parameters.yaml#/components/parameters/clientId'
+        - $ref: '../../common/parameters.yaml#/components/parameters/requestId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/listaRequestSchema'
+      responses:
+        "200":
+          description: Svarar med en lista med prenumerationsIDn som stämmer på frågekriterierna
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/listaResponseSchema'
+        "401":
+          description: Bad Request. Skickas till exempel när pagineringsparametrarna är felaktiga
+          content:
+            application/problem+json:
+              schema:
+                $ref: '../../common/schemas.yaml#/components/schemas/error'
+  /kundhandelser-prenumerationer/detaljer:
+    post:
+      summary:
+      description:
+      parameters:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/detaljerRequestSchema'
+      responses:
+        "200":
+          description:
+            Detaljer för en prenumeration
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/detaljerResponseSchema'
+        "404":
+          description: ProducentPrenumerationsID finns inte
+          content:
+            application/problem+json:
+              schema:
+                $ref: '../../common/schemas.yaml#/components/schemas/error'
+        "403":
+          description: ProducentPrenumerationsID tillhör en annan konsumenttjänst
+          content:
+            application/problem+json:
+              schema:
+                $ref: '../../common/schemas.yaml#/components/schemas/error'
+components:
+  schemas:
+    listaRequestSchema:
+      type: object
+      properties:
+        part:
+          $ref: '../../common/schemas.yaml#/components/schemas/part'
+        producent:
+          type: array
+          description: Lista med första delen av kundhändelsetypens identifierare (t ex SKV för Skatteverket) om man vill filtrera på bara vissa producenter
+          items:
+            type: string
+        paginering:
+          type: object
+          description:
+            Paginering kan användas för att styra vilka prenumerationer som kommer med i svaret. 
+            Listningen av prenumerationer sker utifrån eventuella parametrar part och/eller anvandare. 
+            Listan med svar sorteras i OCP på totalPrenumerationsID i bokstavsordning stigande. 
+            Pagineringens parametrar är mot denna lista (0-baserad)
+          properties:
+            offset:
+              type: integer
+              description:
+                Hur långt ifrån det första objektet i den totala listan som svaret skall börja.
+                offset = 0 betyder att man skall börja från början
+                offset = 1 betyder att man skall börja med den andra prenumerationen i listan
+                offset måste vara 0 eller positiv, negativa värden skall ge ett fel (401)
+            limit:
+              type: integer
+              description:
+                Hur många prenumerationer man maximalt vill ha med i svaret
+                Om limit ej anges skall alla prenumerationer från offset-punkten till slutet av listan anges (dock max 10 000)
+                limit måste vara positiv, 0 eller negativt skall ge ett fel (401)
+          required:
+            - offset
+    listaResponseSchema:
+      type: array
+      description: Listan innehåller totalPrenumerationsID:n som är nu giltiga för aktuell konsument.
+      items:
+        $ref: '../../common/schemas.yaml#/components/schemas/totalPrenumerationsID'
+    detaljerRequestSchema:
+      $ref: '../../common/schemas.yaml#/components/schemas/totalPrenumerationsID'
+    detaljerResponseSchema:
+      type: object
+      properties:
+        detaljer:
+          type: object
+          description: Ett objekt som innehåller detaljerna i prenumerationen
+          properties:
+            totalPrenumerationsID:
+              $ref: '../../common/schemas.yaml#/components/schemas/totalPrenumerationsID'
+            part:
+              $ref: '../../common/schemas.yaml#/components/schemas/part'
+            innehall:
+              type: array
+              description:
+                Lista med information om prenumerationens innehåll. Listan har ett entry per unik kombination av
+                Kundhändelsetyp på lövnivå
+                Producent
+              items:
+                type: object
+                properties:
+                  kundhandelseTyp:
+                    type: string
+                  producent:
+                    description: Producentens namn
+                    type: string
+            anvandare:
+              $ref: '../../common/schemas.yaml#/components/schemas/anvandare'
+            startdatum:
+              description: Datumet prenumerationen lades upp
+              type: string
+              format: date
+            slutdatum:
+              description: Faktiskt slutdatum för prenumerationen (inklusive)
+              type: string
+              format: date
+            onskadAviseringstyp:
+              $ref: '../../common/schemas.yaml#/components/schemas/onskadAviseringsTyp'
+            auktorisationsMetod:
+              $ref: '../../common/schemas.yaml#/components/schemas/auktoristionsMetod'
+            utokadInformation:
+              description:
+                Ett fält som producenten kan använda för att fylla med innehåll om prenumerationen, liknande hur fältet utokadInformation används för kundhändelser.
+                JSON-objekt med valfria attribut
+              type: object
+          required:
+            - totalPrenumerationsID
+            - part
+            - innehall
+            - startdatum
+            - slutdatum
+            - onskadAviseringstyp
+            - auktorisationsMetod
+        producenter:
+          $ref: '../../common/schemas.yaml#/components/schemas/producenterStatus'
+      required:
+        - detaljer
+
+  

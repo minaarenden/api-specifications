@@ -242,30 +242,6 @@ components:
               tagAndringar:
                 $ref: '../../common/schemas.yaml#/components/schemas/tagAndringar'
         producenter:
-          $ref: '#/components/schemas/producenterStatus'
-    producenterStatus:
-      description: Lista med producenter som blev tillfrågade och deras status
-      type: array
-      items:
-        type: object
-        properties:
-          producent:
-            type: string
-            description: producentens namn
-          httpStatus:
-            type: integer
-            description: HTTP-koden som kom från producenten
-          producentPrenumerationsID:
-            $ref: '../../common/schemas.yaml#/components/schemas/producentPrenumerationsID'
-          producentMessage:
-            type: string
-            description: Eventuellt felmedelande från producenten
-          vftMessage:
-            type: string
-            description: Eventuellt felmeddelande från vidareförmedlingstjänsten
-        required:
-          - producent
-          - httpStatus
-          - producentPrenumerationsID
+          $ref: '../../common/schemas.yaml#/components/schemas/producenterStatus'
 
   
