@@ -35,8 +35,12 @@ paths:
   /kundhandelser-prenumerationer/detaljer:
     post:
       summary:
+        Hämtar detaljer för en prenumeration
       description:
+        Hämtar detaljer för en prenumeration. Vidreförmedlingstjänsten skickar frågan vidare till relevant producent
       parameters:
+        - $ref: '../../common/parameters.yaml#/components/parameters/clientId'
+        - $ref: '../../common/parameters.yaml#/components/parameters/requestId'
       requestBody:
         content:
           application/json:
