@@ -7,6 +7,9 @@ info:
 paths:
   /kundhandelser-prenumerationer/upplagg:
     post:
+      tags:
+        - PrenumerationsHantering
+      operationId: registreraPrenumeration
       summary: Lägg upp prenumeration
       description: Anropas av konsumenttjänsten när den vill lägga upp en prenumeration på kundhändelser
       parameters:
@@ -16,7 +19,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/upplaggRequestSchema'
+              $ref: '#/components/schemas/konsumentUpplaggRequest'
       responses:
         "200":
           description:
@@ -25,7 +28,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/upplaggResponseSchema'
+                $ref: '#/components/schemas/konsumentUpplaggResponse'
         "400":
           description:
             Skickas till exempel när man vill ändra till ett historiskt slutdatum
@@ -43,6 +46,9 @@ paths:
                 $ref: '../../common/schemas.yaml#/components/schemas/error'
   /kundhandelser-prenumerationer/borttag:
     post:
+      tags:
+        - PrenumerationsHantering
+      operationId: raderaPrenumeration
       summary: Ta bort en prenumeration
       description: Anropas av konsumenttjänsten när den vill ta bort en prenumeration på kundhändelser
       parameters:
@@ -52,7 +58,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/borttagRequestSchema'
+              $ref: '#/components/schemas/konsumentBorttagRequest'
       responses:
         "200":
           description: Prenumerationen borttagen
@@ -70,6 +76,9 @@ paths:
                 $ref: '../../common/schemas.yaml#/components/schemas/error'
   /kundhandelser-prenumerationer/andra:
     post:
+      tags:
+        - PrenumerationsHantering
+      operationId: andraPrenumeration
       summary: Ändra en prenumeration
       description: Anropas av konsumenttjänsten när den vill ändra en prenumeration på kundhändelser
       parameters:
@@ -79,14 +88,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/andraRequestSchema'
+              $ref: '#/components/schemas/konsumentAndraRequest'
       responses:
         "200":
           description: Ändringen genomförd
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/andraResponseSchema'
+                $ref: '#/components/schemas/konsumentAndraResponse'
         "404":
           description: Skickas till exempel när totalPrenumerationsID inte finns eller om konsumenten försöker ta bort en kundhändelsetyp eller tag som inte ingår i prenumerationen
           content:
@@ -114,7 +123,7 @@ paths:
                 $ref: '../../common/schemas.yaml#/components/schemas/error'
 components:
   schemas:
-    upplaggRequestSchema:
+    konsumentUpplaggRequest:
       type: object
       properties:
         part:
@@ -137,9 +146,8 @@ components:
           $ref: '../../common/schemas.yaml#/components/schemas/auktoristionsMetod'
       required:
         - part
-        - onskatSlutdatum
         - onskadAviseringstyp
-    upplaggResponseSchema:
+    konsumentUpplaggResponse:
       type: object
       properties:
         totalPrenumerationsID:
@@ -162,7 +170,7 @@ components:
           type: string
           format: date
         producenter:
-          $ref: '#/components/schemas/producenterStatus'
+          $ref: '../../common/schemas.yaml#/components/schemas/producenterStatus'
         kundhandelseTypsInformation:
           description:
             En lista med information om hur det gick med efterfrågade kundhändelsetyper
@@ -193,7 +201,7 @@ components:
       required:
         - totalStatus
         - faktisktSlutdatum
-    borttagRequestSchema:
+    konsumentBorttagRequest:
       type: object
       properties:
         totalPrenumerationsID:
@@ -204,7 +212,7 @@ components:
           $ref: '../../common/schemas.yaml#/components/schemas/auktoristionsMetod'
       required:
         - totalPrenumerationsID
-    andraRequestSchema:
+    konsumentAndraRequest:
       type: object
       properties:
         totalPrenumerationsID:
@@ -225,7 +233,7 @@ components:
           $ref: '../../common/schemas.yaml#/components/schemas/tagAndringar'
       required:
         - totalPrenumerationsID
-    andraResponseSchema:
+    konsumentAndraResponse:
       type: object
       properties:
         andringar:

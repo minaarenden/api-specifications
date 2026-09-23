@@ -29,7 +29,7 @@ components:
         - ANDRAD
         - BORTTAGEN
     error:
-      tyoe: object
+      type: object
       description: Behållare för felmeddelande enligt DIGGs REST-API-profil och RFC 9457
       properties:
         type:
@@ -126,8 +126,8 @@ components:
         Array av kundhändelsetyper som efterfrågas. Varje typ specificeras som en standardiserad sträng enligt det namnsättningsformat som gäller för kundhändelsetyper.
         När prenumerationen läggs upp eller ändras kan man göra det med kundhändelsetyper som wildcars. I svaret samt i detaljerna om en prenumeration kommer alla kundhändelsetyper på lövnivå
       items:
-        $ref: '#/common/schemas/kundhandelseTyp'
-    kundhandelseTypAndrngar:
+        $ref: '#/components/schemas/kundhandelseTyp'
+    kundhandelseTypAndringar:
       description:
         Varje tillägg eller borttag av kundhändelsetyp skall ha ett objekt i den här listan
       type: array
@@ -149,9 +149,9 @@ components:
       description: En notis är information om att det skett någonting med en kundhändelse
       properties:
         kundhandelseID:
-          $ref: '../../common/schemas.yaml#/components/schemas/kundhandelseID'
+          $ref: '#/components/schemas/kundhandelseID'
         kundhandelseTyp:
-          $ref: '../../common/schemas.yaml#/components/schemas/kundhandelseTyp'
+          $ref: '#/components/schemas/kundhandelseTyp'
         tidpunkt:
           type: string
           description: Tidpunkten då förändringen skedde
@@ -233,7 +233,7 @@ components:
             type: integer
             description: HTTP-koden som kom från producenten
           producentPrenumerationsID:
-            $ref: '../../common/schemas.yaml#/components/schemas/producentPrenumerationsID'
+            $ref: '#/components/schemas/producentPrenumerationsID'
           producentMessage:
             type: string
             description: Eventuellt felmedelande från producenten

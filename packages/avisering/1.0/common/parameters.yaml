@@ -1,13 +1,12 @@
 components:
   parameters:
     clientId:
-      name: client_id
+      in: header
       description:
         Ett värde som identifierar anropande part.
       required: true
       schema:
         type: string
-        format: uuid
     requestId:
       name: x-request-id
       description:
@@ -16,7 +15,6 @@ components:
       required: true
       schema:
         type: string
-        format: uuid
     correlationId:
       name: x-correlation-id
       description:
@@ -26,6 +24,5 @@ components:
       required: true
       schema:
         type: string
-        format: uuid
 
 
