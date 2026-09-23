@@ -18,14 +18,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/listaRequestSchema'
+              $ref: '#/components/schemas/konsumentListaRequest'
       responses:
         "200":
           description: Svarar med en lista med prenumerationsIDn som stämmer på frågekriterierna
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/listaResponseSchema'
+                $ref: '#/components/schemas/konsumentListaResponse'
         "401":
           description: Bad Request. Skickas till exempel när pagineringsparametrarna är felaktiga
           content:
@@ -45,7 +45,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/detaljerRequestSchema'
+              $ref: '#/components/schemas/konsumentDetaljerRequest'
       responses:
         "200":
           description:
@@ -53,7 +53,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/detaljerResponseSchema'
+                $ref: '#/components/schemas/konsumentDetaljerResponse'
         "404":
           description: ProducentPrenumerationsID finns inte
           content:
@@ -68,7 +68,7 @@ paths:
                 $ref: '../../common/schemas.yaml#/components/schemas/error'
 components:
   schemas:
-    listaRequestSchema:
+    konsumentListaRequest:
       type: object
       properties:
         part:
@@ -101,14 +101,14 @@ components:
                 limit måste vara positiv, 0 eller negativt skall ge ett fel (401)
           required:
             - offset
-    listaResponseSchema:
+    konsumentListaResponse:
       type: array
       description: Listan innehåller totalPrenumerationsID:n som är nu giltiga för aktuell konsument.
       items:
         $ref: '../../common/schemas.yaml#/components/schemas/totalPrenumerationsID'
-    detaljerRequestSchema:
+    konsumentDetaljerRequest:
       $ref: '../../common/schemas.yaml#/components/schemas/totalPrenumerationsID'
-    detaljerResponseSchema:
+    konsumentDetaljerResponse:
       type: object
       properties:
         detaljer:

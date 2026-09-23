@@ -17,7 +17,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/upplaggRequestSchema'
+              $ref: '#/components/schemas/producentUpplaggRequest'
       responses:
         "200":
           description:
@@ -26,7 +26,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/upplaggResponseSchema'
+                $ref: '#/components/schemas/producentUpplaggResponse'
         "501":
           description:
             Producenten stödjer inte efterfrågad funktionalitet.
@@ -46,7 +46,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/borttagRequestSchema'
+              $ref: '#/components/schemas/producentBorttagRequest'
       responses:
         "200":
           description: Prenumerationen borttagen
@@ -73,14 +73,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/andraRequestSchema'
+              $ref: '#/components/schemas/producentAndraRequest'
       responses:
         "200":
           description: Ändringen genomförd
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/andraResponseSchema'
+                $ref: '#/components/schemas/producentAndraResponse'
         "404":
           description: Skickas till exempel när producentPrenumerationsID inte finns eller om konsumenten försöker ta bort en kundhändelsetyp eller tag som inte ingår i prenumerationen
           content:
@@ -102,7 +102,7 @@ paths:
                 $ref: '../../common/schemas.yaml#/components/schemas/error'
 components:
   schemas:
-    upplaggRequestSchema:
+    producentUpplaggRequest:
       type: object
       properties:
         part:
@@ -132,7 +132,7 @@ components:
         - konsumenttjanst
         - slutdatum
         - onskadAviseringstyp
-    upplaggResponseSchema:
+    producentUpplaggResponse:
       type: object
       properties:
         producentPrenumerationsID:
@@ -164,7 +164,7 @@ components:
       required:
         - producentPrenumerationsID
         - kundhandelseTypsInformation
-    borttagRequestSchema:
+    producentBorttagRequest:
       type: object
       properties:
         producentPrenumerationsID:
@@ -180,7 +180,7 @@ components:
       required:
         - producentPrenumerationsID
         - konsumenttjanst
-    andraRequestSchema:
+    producentAndraRequest:
       type: object
       properties:
         # Attributen om kan ändras är slutdatum, kundhändelsetyper eller taggar
@@ -209,7 +209,7 @@ components:
       required:
         - producentPrenumerationsID
         - konsumenttjanst
-    andraResponseSchema:
+    producentAndraResponse:
       type: object
       properties:
         slutdatum:

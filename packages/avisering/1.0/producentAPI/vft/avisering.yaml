@@ -18,7 +18,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/aviseringarRequestSchema'
+              $ref: '#/components/schemas/producentAviseringarRequest'
       responses:
         "202":
           description: Accepted. Vidareförmedlingstjänsten har tagit emot aviseringarna och kommer att göra en best effort för att leverera dem till rätt mottagare
@@ -30,7 +30,7 @@ paths:
                 $ref: '../../common/schemas.yaml#/components/schemas/error'
 components:
   schemas:
-    aviseringarRequestSchema:
+    producentAviseringarRequest:
       type: object
       properties:
         aviseringar:

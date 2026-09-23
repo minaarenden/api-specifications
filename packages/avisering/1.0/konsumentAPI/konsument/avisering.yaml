@@ -19,7 +19,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/aviseringarRequestSchema'
+              $ref: '#/components/schemas/konsumentAviseringarRequest'
       responses:
         "202":
           description:
@@ -27,7 +27,7 @@ paths:
             Konsumenttjäntsen har tagit emot aviseringarna.
 components:
   schemas:
-    aviseringarRequestSchema:
+    konsumentAviseringarRequest:
       type: object
       properties:
         totalPrenumerationsID:
