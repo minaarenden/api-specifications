@@ -4,8 +4,16 @@ info:
   description:
     Denna interaktion används när en konsumenttjänst vill kontrollera sina prenumerationer hos VFT. Detta kan till exempel göras i felsökningssyfte.
   version: 1.0
+servers:
+  - url: http://{environment}:443/mina-arenden/kundhandelser/prenumerationer/v1
+    variables:
+      environment:
+        enum:
+          - "api.skatteverket.se"
+          - "api.test.skatteverket.se"
+        default: "api.skatteverket.se"
 paths:
-  /kundhandelser-prenumerationer/lista:
+  /lista:
     post:
       summary:
         Listar prenumerationer
@@ -32,7 +40,7 @@ paths:
             application/problem+json:
               schema:
                 $ref: '../../common/schemas.yaml#/components/schemas/error'
-  /kundhandelser-prenumerationer/detaljer:
+  /detaljer:
     post:
       summary:
         Hämtar detaljer för en prenumeration

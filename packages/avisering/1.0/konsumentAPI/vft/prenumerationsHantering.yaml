@@ -4,8 +4,16 @@ info:
   description:
     En beskrivning av API:et som Mina ärendens vidareförmedlingstjänst sätter upp mot konsumenter så att de kan hantera sina prenumerationer
   version: 1.0
+servers:
+  - url: http://{environment}:443/mina-arenden/kundhandelser/prenumerationer/v1
+    variables:
+      environment:
+        enum:
+          - "api.skatteverket.se"
+          - "api.test.skatteverket.se"
+        default: "api.skatteverket.se"
 paths:
-  /kundhandelser-prenumerationer/upplagg:
+  /upplagg:
     post:
       tags:
         - PrenumerationsHantering
@@ -44,7 +52,7 @@ paths:
             application/problem+json:
               schema:
                 $ref: '../../common/schemas.yaml#/components/schemas/error'
-  /kundhandelser-prenumerationer/borttag:
+  /borttag:
     post:
       tags:
         - PrenumerationsHantering
@@ -74,7 +82,7 @@ paths:
             application/problem+json:
               schema:
                 $ref: '../../common/schemas.yaml#/components/schemas/error'
-  /kundhandelser-prenumerationer/andra:
+  /andring:
     post:
       tags:
         - PrenumerationsHantering

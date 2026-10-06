@@ -4,7 +4,7 @@ info:
   description: Beskriver det API konsumenttjänsten behöver sätta upp och som vidareförmedlingstjänsten anropar för att skicka aviseringar till konsumenten
   version: 1.0
 paths:
-  /kundhandelser/aviseringar:
+  /aviseringar:
     post:
       summary: Anropas från Vidareförmedlingstjänsten när de vill skicka aviseringar
       description:

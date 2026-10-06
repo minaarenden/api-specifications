@@ -6,7 +6,7 @@ info:
     Denna fil innehåller beskrivningar av endpoints för hantering av prenumerationer
   version: 1.0
 paths:
-  /kundhandelser-prenumerationer/upplagg:
+  /upplagg:
     post:
       summary: Lägg upp prenumeration
       description: Anropas från vidareförmedlingstjänsten när en konsument vill lägga upp en prenumeration på kundhändelser
@@ -35,7 +35,7 @@ paths:
             application/problem+json:
               schema:
                 $ref: '../../common/schemas.yaml#/components/schemas/error'
-  /kundhandelser-prenumerationer/borttag:
+  /borttag:
     post:
       summary: Ta bort en prenumeration
       description: Anropas från vidareförmedlingstjänsten när en konsument vill ta bort en prenumeration på kundhändelser
@@ -62,7 +62,7 @@ paths:
             application/problem+json:
               schema:
                 $ref: '../../common/schemas.yaml#/components/schemas/error'
-  /kundhandelser-prenumerationer/andra:
+  /andring:
     post:
       summary: Ändra en prenumerations
       description: Anropas från vidareförmedlingtjänsten när en konsument vill ändra en prenumeration

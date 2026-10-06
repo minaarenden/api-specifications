@@ -6,7 +6,7 @@ info:
     Denna fil innehåller beskrivningar av endpoints för hämtning av prenumerationsinformation
   version: 1.0
 paths:
-  /kundhandelser-prenumerationer/detaljer:
+  /detaljer:
     post:
       summary: Hämta detaljer för en prenumeration
       description: Anropas från vidareförmedlingstjänsten när den eller en konsument vill hämta detaljer för en prenumeration

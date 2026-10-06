@@ -3,8 +3,16 @@ info:
   title: Vidareförmedlingstjänstens API för att ta emot aviseringar
   description: Beskriver API:et som vidareförmedlingstjänsten erbjuder för att ta emot aviseringar från producenter
   version: 1.0
+servers:
+  - url: http://{environment}:443/mina-arenden/kundhandelser/prenumerationer/v1
+    variables:
+      environment:
+        enum:
+          - "api.skatteverket.se"
+          - "api.test.skatteverket.se"
+        default: "api.skatteverket.se"
 paths:
-  /kundhandelser/aviseringar:
+  /aviseringar:
     post:
       summary: Anropas från producenten när de vill skicka aviseringar
       description:
