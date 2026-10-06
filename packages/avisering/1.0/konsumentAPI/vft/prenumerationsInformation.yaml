@@ -151,10 +151,10 @@ components:
               description: Faktiskt slutdatum för prenumerationen (inklusive)
               type: string
               format: date
-            onskadAviseringstyp:
+            onskadAviseringsTyp:
               $ref: '../../common/schemas.yaml#/components/schemas/onskadAviseringsTyp'
             auktorisationsMetod:
-              $ref: '../../common/schemas.yaml#/components/schemas/auktoristionsMetod'
+              $ref: '../../common/schemas.yaml#/components/schemas/auktorisationsMetod'
             utokadInformation:
               description:
                 Ett fält som producenten kan använda för att fylla med innehåll om prenumerationen, liknande hur fältet utokadInformation används för kundhändelser.
@@ -166,7 +166,7 @@ components:
             - innehall
             - startdatum
             - slutdatum
-            - onskadAviseringstyp
+            - onskadAviseringsTyp
             - auktorisationsMetod
         producenter:
           $ref: '../../common/schemas.yaml#/components/schemas/producenterStatus'

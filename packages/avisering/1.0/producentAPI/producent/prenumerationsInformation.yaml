@@ -77,8 +77,8 @@ components:
             Slutdatum för prenumerationen (inklusive)
           type: string
           format: date
-        auktiorisationsMetod:
-          $ref: '../../common/schemas.yaml#/components/schemas/auktoristionsMetod'
+        auktorisationsMetod:
+          $ref: '../../common/schemas.yaml#/components/schemas/auktorisationsMetod'
         onskadAviseringsTyp:
           $ref: '../../common/schemas.yaml#/components/schemas/onskadAviseringsTyp'
         utokadInformation:

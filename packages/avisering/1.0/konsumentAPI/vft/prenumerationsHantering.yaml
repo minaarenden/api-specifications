@@ -148,13 +148,13 @@ components:
             Om konsumenttjänsten anger ett datum som är längre bort än ett år framåt i tiden så kommer vidareförmedlingstjänsten att sätta om datumet till ett år framåt i tiden
           type: string
           format: date
-        onskadAviseringstyp:
+        onskadAviseringsTyp:
           $ref: '../../common/schemas.yaml#/components/schemas/onskadAviseringsTyp'
         auktorisationsMetod:
-          $ref: '../../common/schemas.yaml#/components/schemas/auktoristionsMetod'
+          $ref: '../../common/schemas.yaml#/components/schemas/auktorisationsMetod'
       required:
         - part
-        - onskadAviseringstyp
+        - onskadAviseringsTyp
     konsumentUpplaggResponse:
       type: object
       properties:
@@ -217,7 +217,7 @@ components:
         anvandare:
           $ref: '../../common/schemas.yaml#/components/schemas/anvandare'
         auktorisationsMetod:
-          $ref: '../../common/schemas.yaml#/components/schemas/auktoristionsMetod'
+          $ref: '../../common/schemas.yaml#/components/schemas/auktorisationsMetod'
       required:
         - totalPrenumerationsID
     konsumentAndraRequest:
@@ -228,7 +228,7 @@ components:
         anvandare:
           $ref: '../../common/schemas.yaml#/components/schemas/anvandare'
         auktorisationsMetod:
-          $ref: '../../common/schemas.yaml#/components/schemas/auktoristionsMetod'
+          $ref: '../../common/schemas.yaml#/components/schemas/auktorisationsMetod'
         onskatSlutdatum:
           description:
             Nytt önskat slutdatum.

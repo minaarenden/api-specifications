@@ -12,7 +12,7 @@ components:
       description:
         Personnummer för den användare som aviseringarna skall gälla för.
         Format med 12 siffror ÅÅÅÅMMDDXXXN
-    auktoristionsMetod:
+    auktorisationsMetod:
       type: string
       description:
         Visar om konsumenten agerar juridiskt läsombud, eller om prenumerationen istället gäller för användaren. Påverkar vilket värde producentenen skall använda att auktorisera mot.

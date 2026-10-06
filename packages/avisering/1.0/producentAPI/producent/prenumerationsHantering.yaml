@@ -125,13 +125,13 @@ components:
           format: date
         onskadAviseringsTyp:
           $ref: '../../common/schemas.yaml#/components/schemas/onskadAviseringsTyp'
-        auktoristionsMetod:
-          $ref: '../../common/schemas.yaml#/components/schemas/auktoristionsMetod'
+        auktorisationsMetod:
+          $ref: '../../common/schemas.yaml#/components/schemas/auktorisationsMetod'
       required:
         - part
         - konsumenttjanst
         - slutdatum
-        - onskadAviseringstyp
+        - onskadAviseringsTyp
     producentUpplaggResponse:
       type: object
       properties:
@@ -175,8 +175,8 @@ components:
           $ref: '../../common/schemas.yaml#/components/schemas/konsument'
         konsumenttjanst:
           $ref: '../../common/schemas.yaml#/components/schemas/konsumenttjanst'
-        auktoristionsMetod:
-          $ref: '../../common/schemas.yaml#/components/schemas/auktoristionsMetod'
+        auktorisationsMetod:
+          $ref: '../../common/schemas.yaml#/components/schemas/auktorisationsMetod'
       required:
         - producentPrenumerationsID
         - konsumenttjanst
@@ -194,7 +194,7 @@ components:
         konsumenttjanst:
           $ref: '../../common/schemas.yaml#/components/schemas/konsumenttjanst'
         auktorisationsMetod:
-          $ref: '../../common/schemas.yaml#/components/schemas/auktoristionsMetod'
+          $ref: '../../common/schemas.yaml#/components/schemas/auktorisationsMetod'
         slutdatum:
           description:
             Nytt önskat slutdatum
