@@ -236,7 +236,7 @@ components:
           type: string
           format: date
         kundhandelseTypAndringar:
-          $ref: '../../common/schemas.yaml#/components/schemas/kundhandelseTypAndrngar'
+          $ref: '../../common/schemas.yaml#/components/schemas/kundhandelseTypAndringar'
         tagAndringar:
           $ref: '../../common/schemas.yaml#/components/schemas/tagAndringar'
       required:
@@ -254,7 +254,7 @@ components:
                 type: string
                 format: date
               kundhandelseTypAndringar:
-                $ref: '../../common/schemas.yaml#/components/schemas/kundhandelseTypAndrngar'
+                $ref: '../../common/schemas.yaml#/components/schemas/kundhandelseTypAndringar'
               tagAndringar:
                 $ref: '../../common/schemas.yaml#/components/schemas/tagAndringar'
         producenter:
