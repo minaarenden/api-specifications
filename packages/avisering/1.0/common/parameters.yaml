@@ -1,6 +1,7 @@
 components:
   parameters:
     clientId:
+      name: client_id
       in: header
       description:
         Ett värde som identifierar anropande part.
