@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   title: Vidareförmedlingstjänstens API för att ta emot aviseringar
   description: Beskriver API:et som vidareförmedlingstjänsten erbjuder för att ta emot aviseringar från producenter
-  version: 1.0
+  version: v1
 servers:
   - url: https://{environment}:443/mina-arenden/kundhandelser/prenumerationer/v1
     variables:

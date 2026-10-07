@@ -4,7 +4,7 @@ info:
   description:
     En beskrivning av API:et som en producent behöver sätta upp för att erbjuda aviseringsfunktionalitet i samarbete med Min ärendens vidareförmedlingstjänst
     Denna fil innehåller beskrivningar av endpoints för hantering av prenumerationer
-  version: 1.0
+  version: v1
 paths:
   /upplagg:
     post:

@@ -3,7 +3,7 @@ info:
   title: Vidareförmedlingstjänstens API mot konsumenter för avisering - Hämtning av prenumerationsinformation
   description:
     Denna interaktion används när en konsumenttjänst vill kontrollera sina prenumerationer hos VFT. Detta kan till exempel göras i felsökningssyfte.
-  version: 1.0
+  version: v1
 servers:
   - url: https://{environment}:443/mina-arenden/kundhandelser/prenumerationer/v1
     variables:

@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   title: Konsumenttjänstens API för att ta emot aviseringar
   description: Beskriver det API konsumenttjänsten behöver sätta upp och som vidareförmedlingstjänsten anropar för att skicka aviseringar till konsumenten
-  version: 1.0
+  version: v1
 paths:
   /aviseringar:
     post:
