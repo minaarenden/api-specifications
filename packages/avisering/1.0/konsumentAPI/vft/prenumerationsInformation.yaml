@@ -5,7 +5,7 @@ info:
     Denna interaktion används när en konsumenttjänst vill kontrollera sina prenumerationer hos VFT. Detta kan till exempel göras i felsökningssyfte.
   version: 1.0
 servers:
-  - url: http://{environment}:443/mina-arenden/kundhandelser/prenumerationer/v1
+  - url: https://{environment}:443/mina-arenden/kundhandelser/prenumerationer/v1
     variables:
       environment:
         enum:

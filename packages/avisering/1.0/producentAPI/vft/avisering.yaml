@@ -4,7 +4,7 @@ info:
   description: Beskriver API:et som vidareförmedlingstjänsten erbjuder för att ta emot aviseringar från producenter
   version: 1.0
 servers:
-  - url: http://{environment}:443/mina-arenden/kundhandelser/prenumerationer/v1
+  - url: https://{environment}:443/mina-arenden/kundhandelser/prenumerationer/v1
     variables:
       environment:
         enum:

@@ -5,7 +5,7 @@ info:
     En beskrivning av API:et som Mina ärendens vidareförmedlingstjänst sätter upp mot konsumenter så att de kan hantera sina prenumerationer
   version: 1.0
 servers:
-  - url: http://{environment}:443/mina-arenden/kundhandelser/prenumerationer/v1
+  - url: https://{environment}:443/mina-arenden/kundhandelser/prenumerationer/v1
     variables:
       environment:
         enum:
