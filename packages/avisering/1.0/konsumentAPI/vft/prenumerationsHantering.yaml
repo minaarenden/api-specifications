@@ -17,7 +17,7 @@ paths:
     post:
       tags:
         - PrenumerationsHantering
-      operationId: registreraPrenumeration
+      operationId: registreraPrenumerationKonsument
       summary: Lägg upp prenumeration
       description: Anropas av konsumenttjänsten när den vill lägga upp en prenumeration på kundhändelser
       parameters:
@@ -39,7 +39,14 @@ paths:
                 $ref: '#/components/schemas/konsumentUpplaggResponse'
         "400":
           description:
-            Skickas till exempel när man vill ändra till ett historiskt slutdatum
+            Skickas till exempel när man vill ändra till ett historiskt slutdatum eller när man försöker ställa frågor mot en producent man inte är konfigurerad för
+          content:
+            application/problem+json:
+              schema:
+                $ref: '../../common/schemas.yaml#/components/schemas/error'
+        "403":
+          description:
+            Skickas när man använder en otillåten auktorisationsmetod (beroende på vilken kanal anropet kommer ifrån)
           content:
             application/problem+json:
               schema:
@@ -56,7 +63,7 @@ paths:
     post:
       tags:
         - PrenumerationsHantering
-      operationId: raderaPrenumeration
+      operationId: raderaPrenumerationKonsument
       summary: Ta bort en prenumeration
       description: Anropas av konsumenttjänsten när den vill ta bort en prenumeration på kundhändelser
       parameters:
@@ -86,7 +93,7 @@ paths:
     post:
       tags:
         - PrenumerationsHantering
-      operationId: andraPrenumeration
+      operationId: andraPrenumerationKonsument
       summary: Ändra en prenumeration
       description: Anropas av konsumenttjänsten när den vill ändra en prenumeration på kundhändelser
       parameters:
@@ -111,7 +118,8 @@ paths:
               schema:
                 $ref: '../../common/schemas.yaml#/components/schemas/error'
         "403":
-          description: Skickas när prenumerationen tillhör en annan användare eller konsumenttjänst
+          description:
+            Skickas till exempel när man vill ändra till ett historiskt slutdatum eller när man försöker ställa frågor mot en producent man inte är konfigurerad för
           content:
             application/problem+json:
               schema:
