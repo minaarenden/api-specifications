@@ -78,7 +78,7 @@ paths:
         "200":
           description: Prenumerationen borttagen
         "403":
-          description: Skickas när prenumerationen tillhör en annan användare eller konsumenttjänst
+          description: Skickas när prenumerationen tillhör en annan användare eller konsumenttjänst eller om man använder en otillåten auktorisationsmetod (beroende på kanal)
           content:
             application/problem+json:
               schema:
