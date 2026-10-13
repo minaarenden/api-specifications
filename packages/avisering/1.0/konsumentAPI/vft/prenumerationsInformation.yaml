@@ -15,6 +15,9 @@ servers:
 paths:
   /lista:
     post:
+      tags:
+        - PrenumerationsInformation
+      operationId: listaPrenumerationerKonsument
       summary:
         Listar prenumerationer
       description:
