@@ -45,6 +45,9 @@ paths:
                 $ref: '../../common/schemas.yaml#/components/schemas/error'
   /detaljer:
     post:
+      tags:
+        - PrenumerationsInformation
+      operationId: detaljerPrenumerationerKonsument
       summary:
         Hämtar detaljer för en prenumeration
       description:
