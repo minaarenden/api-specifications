@@ -27,6 +27,21 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/producentUpplaggResponse'
+        "400":
+          description:
+            Felaktig prenumeration, t ex att man begärt kundhändelsetyp eller tagg som inte finns
+          content:
+            application/problem+json:
+              schema:
+                $ref: '../../common/schemas.yaml#/components/schemas/error'
+        "401":
+          description:
+            Användaren är inte auktoriserad på någon av de efterfrågade kundhändelsetyperna
+            Observera att om användaren är delvis auktoriserad (auktorisation OK på någon typ men inte på andra) skall det inte vara detta felfall, utan istället ett 200-svar. Payload i svaret kommer att indikera att prenumerationen inte blev fullständig
+          content:
+            application/problem+json:
+              schema:
+                $ref: '../../common/schemas.yaml#/components/schemas/error'
         "501":
           description:
             Producenten stödjer inte efterfrågad funktionalitet.

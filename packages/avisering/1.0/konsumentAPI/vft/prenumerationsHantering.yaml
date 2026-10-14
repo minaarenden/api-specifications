@@ -53,7 +53,7 @@ paths:
                 $ref: '../../common/schemas.yaml#/components/schemas/error'
         "501":
           description:
-            En producent stödjer inte efterfrågad funktionslitet.
+            En producent stödjer inte efterfrågad funktionalitet.
             Det kan t ex röra sig om anrop med taggar, juridiskt läsombud eller att identifiera part med ärende
           content:
             application/problem+json:
@@ -167,6 +167,7 @@ components:
       type: object
       properties:
         totalPrenumerationsID:
+          # Om alla producenter har svarat med en felkod kommer inget totalPrenumerationsID att skapas. Därför är denna inte obligatorisk
           $ref: '../../common/schemas.yaml#/components/schemas/totalPrenumerationsID'
         totalStatus:
           description:
