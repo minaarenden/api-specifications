@@ -72,8 +72,8 @@ components:
       type: object
       description: En kundhändelse representerar en händelse som skett i handläggningen av ett ärende och dessutom att kunden är intresserad av att få reda på detta
       properties:
-        kundhandelseID:
-          $ref: '#/components/schemas/kundhandelseID'
+        kundhandelseId:
+          $ref: '#/components/schemas/kundhandelseId'
         rubrik:
           description: Samma attribut som vid hämtning
           type: string
@@ -105,7 +105,7 @@ components:
           description: Samma attribut som vid hämtning
           type: object
       required:
-        - kundhandelseID
+        - kundhandelseId
         - rubrik
         - beskrivning
         - sprak
@@ -114,7 +114,7 @@ components:
         - kundhandelseTyp
         - producentarendetKraverKundatgard
         - producentarendetKlart
-    kundhandelseID:
+    kundhandelseId:
       type: string
       description: Identifierare av kundhändelsen. Värdet skall vara permanent så att det blir samma värde om man efterfrågar kundhändelsen via en fråga till operationen hämta kundhändelser
     kundhandelseTyp:
@@ -148,8 +148,8 @@ components:
       type: object
       description: En notis är information om att det skett någonting med en kundhändelse
       properties:
-        kundhandelseID:
-          $ref: '#/components/schemas/kundhandelseID'
+        kundhandelseId:
+          $ref: '#/components/schemas/kundhandelseId'
         kundhandelseTyp:
           $ref: '#/components/schemas/kundhandelseTyp'
         tidpunkt:
@@ -157,7 +157,7 @@ components:
           description: Tidpunkten då förändringen skedde
           format: date-time
       required:
-        - kundhandelseID
+        - kundhandelseId
         - kundhandelseTyp
         - tidpunkt
     onskadAviseringsTyp:
