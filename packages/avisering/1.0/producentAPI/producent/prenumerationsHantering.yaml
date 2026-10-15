@@ -55,6 +55,9 @@ paths:
                 $ref: '../../common/schemas.yaml#/components/schemas/error'
   /borttag:
     post:
+      tags:
+        - PrenumerationsHantering
+      operationId: andraPrenumerationProducent
       summary: Ta bort en prenumeration
       description: Anropas från vidareförmedlingstjänsten när en konsument vill ta bort en prenumeration på kundhändelser
       parameters:
