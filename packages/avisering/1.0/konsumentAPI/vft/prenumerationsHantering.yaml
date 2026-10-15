@@ -197,9 +197,9 @@ components:
           items:
             type: object
             properties:
-              begardKundhandelseTyp:
+              begart:
                 type: string
-                description: Vad begärdes (med eventuell wildcard)
+                description: Vad begärdes (med eventuell wildcard). Detta är ett entry i aningen fältet kundhandelseTyper eller fältet taggar i originalfrågan
               producent:
                 type: string
                 description: Producentens namn
@@ -212,7 +212,7 @@ components:
                 type: integer
                 description: Hur många kundhändelsetyper för denna begärda kundhändelsetyp (och producent) var användaren/konsumenttjänsten inte auktoriserad på
             required:
-              - begardKundhandelseTyp
+              - begart
               - producent
               - antalIckeAuktoriserade
       required:

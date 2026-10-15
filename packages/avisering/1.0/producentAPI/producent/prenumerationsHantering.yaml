@@ -162,9 +162,9 @@ components:
             description:
               Visar vad som hände med en begärd uppsättning kundhändelsetyper, dvs en sträng i fältet kundhändelseTyper eller en sträng i fältet taggar i frågan
             properties:
-              begardKundhandelseTyp:
+              begart:
                 type: string
-                description: Vad begärdes (med eventuell wildcard)
+                description: Vad begärdes (med eventuell wildcard). Detta är ett entry i aningen fältet kundhandelseTyper eller fältet taggar i originalfrågan
               kundhandelseTyper:
                 type: array
                 description: Auktoriserade kundhändelsetypers (på lövnivå) identifierare. Om användaren inte var auktoriserad på någon av de begärda kundhändelsetyperna blir listan tom
@@ -174,7 +174,7 @@ components:
                 type: number
                 description: Hur många kundhändelsetyper för denna begärda kundhändelsetyp var användaren/konsumenttjänsten inte auktoriserad på.
             required:
-              - begardKundhandelseTyp
+              - begart
               - antalIckeAuktoriserade
       required:
         - producentPrenumerationsID
