@@ -57,7 +57,7 @@ paths:
     post:
       tags:
         - PrenumerationsHantering
-      operationId: andraPrenumerationProducent
+      operationId: raderaPrenumerationProducent
       summary: Ta bort en prenumeration
       description: Anropas från vidareförmedlingstjänsten när en konsument vill ta bort en prenumeration på kundhändelser
       parameters:
@@ -85,6 +85,9 @@ paths:
                 $ref: '../../common/schemas.yaml#/components/schemas/error'
   /andring:
     post:
+      tags:
+        - PrenumerationsHantering
+      operationId: andraPrenumerationProducent
       summary: Ändra en prenumerations
       description: Anropas från vidareförmedlingtjänsten när en konsument vill ändra en prenumeration
       parameters:
