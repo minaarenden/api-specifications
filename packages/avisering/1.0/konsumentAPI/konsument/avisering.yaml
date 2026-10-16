@@ -6,6 +6,9 @@ info:
 paths:
   /aviseringar:
     post:
+      tags:
+        - Aviseringar
+      operationId: aviseraKonsument
       summary: Anropas från Vidareförmedlingstjänsten när de vill skicka aviseringar
       description:
         Vidareförmedlingstjänsten anropar denna tjänst för att skicka aviseringar till konsumenttjänsten.

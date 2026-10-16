@@ -14,6 +14,9 @@ servers:
 paths:
   /aviseringar:
     post:
+      tags:
+        - Aviseringar
+      operationId: aviseraProducent
       summary: Anropas från producenten när de vill skicka aviseringar
       description:
         Producenten samlar ihop aviseringar och skickar de i klump genom anrop till denna endpoint. Fördröjningen mellan att en undhändelse uppstår
