@@ -8,6 +8,9 @@ info:
 paths:
   /detaljer:
     post:
+      tags:
+        - PrenumerationsInformation
+      operationId: detaljerPrenumerationerProducent
       summary: Hämta detaljer för en prenumeration
       description: Anropas från vidareförmedlingstjänsten när den eller en konsument vill hämta detaljer för en prenumeration
       parameters:
