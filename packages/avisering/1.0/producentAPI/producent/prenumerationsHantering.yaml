@@ -106,7 +106,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/producentAndraResponse'
         "404":
-          description: Skickas till exempel när producentPrenumerationsID inte finns eller om konsumenten försöker ta bort en kundhändelsetyp eller tag som inte ingår i prenumerationen
+          description: Skickas till exempel när producentPrenumerationsID inte finns
           content:
             application/problem+json:
               schema:
